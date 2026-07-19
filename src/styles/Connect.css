@@ -1,0 +1,167 @@
+.connect-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 8rem 10% 3rem 10%;
+  position: relative;
+  z-index: 10;
+  background: linear-gradient(to bottom, rgba(9, 9, 11, 0.6), #09090b);
+}
+
+.connect-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 65vh;
+}
+
+.connect-header {
+  margin-bottom: 3.5rem;
+}
+
+.connect-header .section-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+.connect-description {
+  font-size: 1.15rem;
+  color: #a1a1aa;
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+.connect-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 5rem;
+}
+
+.connect-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  background: rgba(24, 24, 27, 0.45);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 1.25rem 1.5rem;
+  border-radius: 12px;
+  text-decoration: none;
+  overflow: hidden;
+  transition: border-color 0.4s ease, background 0.4s ease;
+}
+
+.connect-card:hover {
+  background: rgba(24, 24, 27, 0.65);
+}
+
+.connect-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.connect-icon {
+  color: #a1a1aa;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.connect-card:hover .connect-icon-box {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.connect-card:hover .connect-icon {
+  color: #ffffff;
+  transform: scale(1.08);
+}
+
+.connect-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  z-index: 2;
+}
+
+.connect-link-name {
+  font-size: 1.05rem;
+  color: #f4f4f5;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.connect-link-subtext {
+  font-size: 0.78rem;
+  color: #71717a;
+  font-weight: 400;
+  transition: color 0.3s ease;
+}
+
+.connect-card:hover .connect-link-subtext {
+  color: #a1a1aa;
+}
+
+.connect-card-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.08), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.connect-card:hover .connect-card-glow {
+  opacity: 1;
+}
+
+.footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  padding-top: 2.5rem;
+  text-align: center;
+}
+
+.footer p {
+  font-size: 0.85rem;
+  color: #71717a;
+  font-weight: 300;
+  letter-spacing: 0.03em;
+}
+
+@media (max-width: 640px) {
+  .connect-section {
+    padding: 6rem 6% 2rem 6%;
+  }
+
+  .connect-header .section-title {
+    font-size: 2.3rem;
+  }
+
+  .connect-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+  }
+
+  .connect-card {
+    padding: 1rem 1.25rem;
+  }
+}

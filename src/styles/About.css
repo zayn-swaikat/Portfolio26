@@ -1,0 +1,160 @@
+.about-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 8rem 10%;
+  position: relative;
+  z-index: 10;
+  background: linear-gradient(to bottom, transparent, rgba(9, 9, 11, 0.6) 20%);
+}
+
+.about-container {
+  width: 100%;
+  max-width: 950px;
+  margin: 0 auto;
+}
+
+.about-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4.5rem;
+}
+
+.about-header .section-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.about-content-flow {
+  display: flex;
+  flex-direction: column;
+}
+
+.about-row {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 2rem;
+  padding: 3rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: border-color 0.4s ease;
+}
+
+.about-row:last-child {
+  border-bottom: none;
+}
+
+.about-row:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.row-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #71717a;
+  height: fit-content;
+  padding-top: 0.25rem;
+  transition: color 0.4s ease;
+}
+
+.about-row:hover .row-meta {
+  color: #ffffff;
+}
+
+.row-icon {
+  flex-shrink: 0;
+}
+
+.row-label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 600;
+}
+
+.row-text p {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: #a1a1aa;
+  font-weight: 300;
+  margin: 0;
+  transition: color 0.4s ease;
+}
+
+.about-row:hover .row-text p {
+  color: #e4e4e7;
+}
+
+.highlight {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.languages-minimal {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.lang-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.lang-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.lang-status {
+  font-size: 0.8rem;
+  color: #71717a;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+.lang-divider {
+  width: 1px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+  .about-section {
+    padding: 6rem 6%;
+  }
+  
+  .about-header .section-title {
+    font-size: 2.3rem;
+  }
+
+  .about-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 2rem 0;
+  }
+
+  .row-meta {
+    padding-top: 0;
+  }
+
+  .row-text p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+  }
+
+  .lang-divider {
+    display: none;
+  }
+
+  .languages-minimal {
+    gap: 1.5rem 2rem;
+  }
+}
