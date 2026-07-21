@@ -1,5 +1,6 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
+import { PerformanceMonitor } from '@react-three/drei';
 
 import Scene from './components/3d/Scene';
 
@@ -14,20 +15,27 @@ import Connect from './components/ui/Connect';
 import './index.css';
 
 function App() {
+  const [dpr, setDpr] = useState(1.5);
+
   return (
     <div className="app-wrapper">
-
       <div className="global-canvas-container">
-
         <Canvas 
           eventSource={document.body} 
           eventPrefix="client"
           camera={{ position: [0, 0, 8], fov: 45 }} 
-          dpr={[1, 2]}
+          dpr={dpr}
+          gl={{ powerPreference: "high-performance", antialias: false }}
         >
-          <Suspense fallback={null}>
-            <Scene />
-          </Suspense>
+          <PerformanceMonitor 
+            onDecline={() => setDpr(1)} 
+            onIncline={() => setDpr(1.5)}
+            flipflops={3}
+          >
+            <Suspense fallback={null}>
+              <Scene />
+            </Suspense>
+          </PerformanceMonitor>
         </Canvas>
       </div>
 

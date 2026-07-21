@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useEffect } from 'react';
+import React, { useRef, useMemo, useEffect, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { 
   Float, 
@@ -12,8 +12,20 @@ import {
 import { EffectComposer, Bloom, DepthOfField } from '@react-three/postprocessing';
 import * as THREE from 'three';
 
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  return isMobile;
+};
 
-const NeuralNetwork = ({ count = 40 }) => {
+const NeuralNetwork = ({ isMobile }) => {
+  const count = isMobile ? 20 : 45; 
+
   const lines = useMemo(() => {
     const points = [];
     const connections = [];
@@ -54,7 +66,7 @@ const NeuralNetwork = ({ count = 40 }) => {
           points={points} 
           color="#0055FF" 
           transparent 
-          opacity={0.15} 
+          opacity={isMobile ? 0.1 : 0.15} 
           lineWidth={1} 
         />
       ))}
@@ -62,7 +74,7 @@ const NeuralNetwork = ({ count = 40 }) => {
   );
 };
 
-const HolographicPanels = () => {
+const HolographicPanels = ({ isMobile }) => {
   const panelsRef = useRef();
 
   useFrame((state) => {
@@ -91,7 +103,8 @@ const HolographicPanels = () => {
           <planeGeometry args={[3, 1.5]} />
           <MeshTransmissionMaterial 
             backside
-            samples={4}
+            samples={isMobile ? 1 : 4}
+            resolution={isMobile ? 128 : 512}
             thickness={0.2}
             chromaticAberration={0.05}
             anisotropy={0.1}
@@ -108,10 +121,9 @@ const HolographicPanels = () => {
   );
 };
 
-const CentralCore = () => {
+const CentralCore = ({ isMobile }) => {
   const coreRef = useRef();
   const maxScrollRef = useRef(1);
-
   const targetPosition = useMemo(() => new THREE.Vector3(0, 0, 0), []);
 
   useEffect(() => {
@@ -121,7 +133,6 @@ const CentralCore = () => {
 
     updateMaxScroll();
     window.addEventListener('resize', updateMaxScroll);
-
     const observer = new ResizeObserver(updateMaxScroll);
     observer.observe(document.body);
 
@@ -133,18 +144,15 @@ const CentralCore = () => {
 
   useFrame((state, delta) => {
     const t = state.clock.getElapsedTime();
-
     coreRef.current.rotation.y = t * 0.05;
     coreRef.current.scale.x = coreRef.current.scale.y = coreRef.current.scale.z = 1 + Math.sin(t * 1) * 0.02;
 
     const scrollProgress = window.scrollY / maxScrollRef.current;
-
     const targetX = Math.sin(scrollProgress * Math.PI) * 4;
     const targetY = scrollProgress * -2;
     const targetZ = scrollProgress * -1.5;
 
     targetPosition.set(targetX, targetY, targetZ);
-
     coreRef.current.position.lerp(targetPosition, delta * 4);
   });
 
@@ -154,8 +162,8 @@ const CentralCore = () => {
       <MeshTransmissionMaterial 
         background={new THREE.Color('#030305')}
         backside
-        samples={8}
-        resolution={1024}
+        samples={isMobile ? 2 : 8}
+        resolution={isMobile ? 256 : 1024}
         transmission={0.95}
         roughness={0.1}
         thickness={1.5}
@@ -172,35 +180,37 @@ const CentralCore = () => {
   );
 };
 
-
 export default function Scene() {
   const groupRef = useRef();
+  const isMobile = useIsMobile();
 
   useFrame((state) => {
-    const targetX = (state.pointer.x * Math.PI) / 10;
-    const targetY = (state.pointer.y * Math.PI) / 10;
-    
-    groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetX, 0.02);
-    groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, -targetY, 0.02);
+    if (!isMobile) {
+      const targetX = (state.pointer.x * Math.PI) / 10;
+      const targetY = (state.pointer.y * Math.PI) / 10;
+      groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetX, 0.02);
+      groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, -targetY, 0.02);
+    }
   });
 
   return (
     <>
       <color attach="background" args={['#010102']} />
-      <fog attach="fog" args={['#010102', 5, 15]} />
+      <fog attach="fog" args={['#010102', 5, isMobile ? 12 : 15]} />
       
-      <Environment preset="city" />
+      <Environment preset="city" resolution={isMobile ? 128 : 256} />
+      
       <ambientLight intensity={0.2} />
       <directionalLight position={[10, 10, 5]} intensity={1} color="#0055FF" />
       <directionalLight position={[-10, -10, -5]} intensity={0.5} color="#7000FF" />
 
       <group ref={groupRef}>
-        <CentralCore />
-        <NeuralNetwork count={50} />
-        <HolographicPanels />
+        <CentralCore isMobile={isMobile} />
+        <NeuralNetwork isMobile={isMobile} />
+        <HolographicPanels isMobile={isMobile} />
 
         <Sparkles 
-          count={800} 
+          count={isMobile ? 150 : 800} 
           scale={12} 
           size={1} 
           speed={0.2} 
@@ -208,7 +218,7 @@ export default function Scene() {
           color="#ffffff" 
         />
         <Sparkles 
-          count={200} 
+          count={isMobile ? 50 : 200} 
           scale={10} 
           size={1.5} 
           speed={0.4} 
@@ -217,9 +227,16 @@ export default function Scene() {
         />
       </group>
 
-      <EffectComposer disableNormalPass>
-        <DepthOfField focusDistance={0} focalLength={0.02} bokehScale={2} height={480} />
-        <Bloom luminanceThreshold={0.2} luminanceSmoothing={0.9} height={300} intensity={1.5} />
+      <EffectComposer disableNormalPass multisampling={isMobile ? 0 : 4}>
+        {!isMobile && (
+          <DepthOfField focusDistance={0} focalLength={0.02} bokehScale={2} height={480} />
+        )}
+        <Bloom 
+          luminanceThreshold={0.2} 
+          luminanceSmoothing={0.9} 
+          height={isMobile ? 150 : 300} 
+          intensity={isMobile ? 1.2 : 1.5} 
+        />
       </EffectComposer>
     </>
   );
