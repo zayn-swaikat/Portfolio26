@@ -7,7 +7,7 @@ const projectsData = [
   {
     title: "Food Delivery Intelligence Platform",
     description: "An end-to-end food delivery intelligence platform. It delivers operational analytics, customer segmentation, restaurant efficiency scoring, and machine learning-powered delay prediction.",
-    tags: ["Python", "React", "Pandas", "Scikit-learn", "Recharts", "Framer Motion", "Tailwind CSS"],
+    tags: ["Python", "React", "Pandas", "Scikit-learn", "Recharts", "Framer Motion"],
     github: "https://github.com/zayn-swaikat/Restaurants",
     live: "https://zayns-restaurants-analysis.vercel.app/"
   },
@@ -17,6 +17,13 @@ const projectsData = [
     tags: ["Python", "Streamlit", "Pandas", "Folium", "Data Analysis"],
     github: "https://github.com/zayn-swaikat/taxi-analysis",
     live: "https://taxi-analysis-frawrkzhsjkyvbcat9eafm.streamlit.app/"
+  },
+  {
+    title: "VAGABOND Luxury Travel",
+    description: "A premium luxury travel website featuring cinematic animations, immersive storytelling, curated destinations, interactive galleries, and an elegant concierge-inspired user experience with high-end visual design.",
+    tags: ["ReactJS", "Vite", "Framer Motion", "CSS3", "SwiperJS"],
+    github: "https://github.com/zayn-swaikat/travel-agency",
+    live: "https://travelwithvagabond.vercel.app/"
   },
   {
     title: "Mediterraneo Restaurant",
