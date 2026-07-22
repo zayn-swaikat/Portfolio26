@@ -22,7 +22,7 @@ const projectsData = [
     title: "VAGABOND Luxury Travel",
     description: "A premium luxury travel website featuring cinematic animations, immersive storytelling, curated destinations, interactive galleries, and an elegant concierge-inspired user experience with high-end visual design.",
     tags: ["ReactJS", "Vite", "Framer Motion", "CSS3", "SwiperJS"],
-    github: "https://github.com/zayn-swaikat/travel-agency",
+    github: "https://github.com/zayn-swaikat/VAGABOND",
     live: "https://travelwithvagabond.vercel.app/"
   },
   {
@@ -146,7 +146,12 @@ export default function Projects() {
             return (
               <motion.div
                 key={index}
-                className="project-card"
+                className={`project-card ${
+                  project.title === "VAGABOND Luxury Travel" ||
+                  project.title === "Food Delivery Intelligence Platform"
+                    ? "featured-project"
+                    : ""
+                }`}
                 variants={cardVariants}
                 whileHover={{ 
                   y: -8, 
@@ -155,6 +160,12 @@ export default function Projects() {
                   boxShadow: "0px 20px 40px rgba(0, 0, 0, 0.5)"
                 }}
               >
+                {project.title === "VAGABOND Luxury Travel" && (
+                  <span className="featured-badge">Featured</span>
+                )}
+                {project.title === "Food Delivery Intelligence Platform" && (
+                  <span className="featured-badge">Featured</span>
+                )}
                 <div className="project-info">
                   <h3 className="project-title">{project.title}</h3>
                   <p className="project-description">{project.description}</p>

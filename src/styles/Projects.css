@@ -53,6 +53,46 @@
   transition: border-color 0.4s ease, background 0.4s ease;
 }
 
+.featured-project {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 215, 0, 0.08),
+      rgba(24, 24, 27, 0.5) 45%,
+      rgba(255, 193, 7, 0.05)
+    );
+  border: 1px solid rgba(255, 215, 0, 0.35);
+}
+
+.featured-project h3 {
+  background: linear-gradient(
+    90deg,
+    #fff6cf,
+    #f8d568,
+    #d4a017
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.featured-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+
+  padding: 4px 10px;
+  border-radius: 999px;
+  border-top-right-radius: 0;
+
+  background: linear-gradient(135deg, #f8d568, #c99600);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+
+  box-shadow: 0 6px 20px rgba(255, 215, 0, .25);
+}
+
 .project-card:hover {
   border-color: rgba(255, 255, 255, 0.25);
   background: rgba(24, 24, 27, 0.6);
