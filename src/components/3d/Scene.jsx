@@ -1,13 +1,16 @@
-import React, { useRef, useMemo, useEffect, useState } from 'react';
+import React, { useRef, useMemo, useEffect, useState, useCallback } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { 
-  Float, 
-  Instances, 
-  Instance, 
-  Line, 
-  Sparkles, 
-  Environment, 
-  MeshTransmissionMaterial 
+import {
+  Float,
+  Instances,
+  Instance,
+  Line,
+  Sparkles,
+  Environment,
+  MeshTransmissionMaterial,
+  PerformanceMonitor,
+  AdaptiveDpr,
+  AdaptiveEvents,
 } from '@react-three/drei';
 import { EffectComposer, Bloom, DepthOfField } from '@react-three/postprocessing';
 import * as THREE from 'three';
@@ -23,17 +26,36 @@ const useIsMobile = () => {
   return isMobile;
 };
 
-const NeuralNetwork = ({ isMobile }) => {
-  const count = isMobile ? 20 : 45; 
+const useScrollRef = () => {
+  const scrollRef = useRef(0);
+  useEffect(() => {
+    const onScroll = () => {
+      scrollRef.current = window.scrollY;
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+  return scrollRef;
+};
+
+const QUALITY_LEVELS = ['low', 'medium', 'high', 'ultra'];
+
+const NeuralNetwork = ({ quality }) => {
+  const count =
+    quality === 'low' ? 15 : quality === 'medium' ? 25 : quality === 'high' ? 35 : 45;
+
+  const material = useMemo(() => new THREE.MeshBasicMaterial({ color: '#0055FF' }), []);
+  useEffect(() => () => material.dispose(), [material]);
 
   const lines = useMemo(() => {
     const points = [];
     const connections = [];
     for (let i = 0; i < count; i++) {
       const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos((Math.random() * 2) - 1);
+      const phi = Math.acos(Math.random() * 2 - 1);
       const r = 3 + Math.random() * 4;
-      
+
       const x = r * Math.sin(phi) * Math.cos(theta);
       const y = r * Math.sin(phi) * Math.sin(theta);
       const z = r * Math.cos(phi);
@@ -51,30 +73,25 @@ const NeuralNetwork = ({ isMobile }) => {
     return { points, connections };
   }, [count]);
 
+  const opacity = quality === 'low' ? 0.08 : quality === 'medium' ? 0.12 : 0.15;
+
   return (
     <group>
-      <Instances range={count} material={new THREE.MeshBasicMaterial({ color: '#0055FF' })}>
+      <Instances range={count} material={material}>
         <sphereGeometry args={[0.04, 16, 16]} />
         {lines.points.map((pos, i) => (
           <Instance key={i} position={pos} />
         ))}
       </Instances>
 
-      {lines.connections.map((points, i) => (
-        <Line 
-          key={i} 
-          points={points} 
-          color="#0055FF" 
-          transparent 
-          opacity={isMobile ? 0.1 : 0.15} 
-          lineWidth={1} 
-        />
+      {lines.connections.map((pts, i) => (
+        <Line key={i} points={pts} color="#0055FF" transparent opacity={opacity} lineWidth={1} />
       ))}
     </group>
   );
 };
 
-const HolographicPanels = ({ isMobile }) => {
+const HolographicPanels = ({ quality }) => {
   const panelsRef = useRef();
 
   useFrame((state) => {
@@ -83,17 +100,20 @@ const HolographicPanels = ({ isMobile }) => {
     panelsRef.current.position.y = Math.sin(t * 0.5) * 0.2;
   });
 
+  const samples = quality === 'low' ? 1 : quality === 'medium' ? 2 : 4;
+  const resolution = quality === 'low' ? 128 : quality === 'medium' ? 256 : 512;
+
   return (
     <group ref={panelsRef}>
       <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5}>
         <mesh position={[-3, 1, -2]} rotation={[0, Math.PI / 4, 0]}>
           <planeGeometry args={[2, 3]} />
-          <meshBasicMaterial 
-            color="#0055FF" 
-            wireframe 
-            transparent 
-            opacity={0.1} 
-            side={THREE.DoubleSide} 
+          <meshBasicMaterial
+            color="#0055FF"
+            wireframe
+            transparent
+            opacity={0.1}
+            side={THREE.DoubleSide}
           />
         </mesh>
       </Float>
@@ -101,10 +121,10 @@ const HolographicPanels = ({ isMobile }) => {
       <Float speed={2} rotationIntensity={0.4} floatIntensity={0.5}>
         <mesh position={[3, -1, -3]} rotation={[0, -Math.PI / 6, 0]}>
           <planeGeometry args={[3, 1.5]} />
-          <MeshTransmissionMaterial 
+          <MeshTransmissionMaterial
             backside
-            samples={isMobile ? 1 : 4}
-            resolution={isMobile ? 128 : 512}
+            samples={samples}
+            resolution={resolution}
             thickness={0.2}
             chromaticAberration={0.05}
             anisotropy={0.1}
@@ -121,10 +141,11 @@ const HolographicPanels = ({ isMobile }) => {
   );
 };
 
-const CentralCore = ({ isMobile }) => {
+const CentralCore = ({ quality, scrollRef }) => {
   const coreRef = useRef();
   const maxScrollRef = useRef(1);
   const targetPosition = useMemo(() => new THREE.Vector3(0, 0, 0), []);
+  const backgroundColor = useMemo(() => new THREE.Color('#030305'), []);
 
   useEffect(() => {
     const updateMaxScroll = () => {
@@ -142,12 +163,18 @@ const CentralCore = ({ isMobile }) => {
     };
   }, []);
 
+  const samples =
+    quality === 'low' ? 1 : quality === 'medium' ? 2 : quality === 'high' ? 6 : 8;
+  const resolution =
+    quality === 'low' ? 128 : quality === 'medium' ? 256 : quality === 'high' ? 512 : 1024;
+
   useFrame((state, delta) => {
     const t = state.clock.getElapsedTime();
     coreRef.current.rotation.y = t * 0.05;
-    coreRef.current.scale.x = coreRef.current.scale.y = coreRef.current.scale.z = 1 + Math.sin(t * 1) * 0.02;
+    coreRef.current.scale.x = coreRef.current.scale.y = coreRef.current.scale.z =
+      1 + Math.sin(t * 1) * 0.02;
 
-    const scrollProgress = window.scrollY / maxScrollRef.current;
+    const scrollProgress = scrollRef.current / maxScrollRef.current;
     const targetX = Math.sin(scrollProgress * Math.PI) * 4;
     const targetY = scrollProgress * -2;
     const targetZ = scrollProgress * -1.5;
@@ -159,11 +186,11 @@ const CentralCore = ({ isMobile }) => {
   return (
     <mesh ref={coreRef}>
       <octahedronGeometry args={[1.5, 0]} />
-      <MeshTransmissionMaterial 
-        background={new THREE.Color('#030305')}
+      <MeshTransmissionMaterial
+        background={backgroundColor}
         backside
-        samples={isMobile ? 2 : 8}
-        resolution={isMobile ? 256 : 1024}
+        samples={samples}
+        resolution={resolution}
         transmission={0.95}
         roughness={0.1}
         thickness={1.5}
@@ -183,6 +210,21 @@ const CentralCore = ({ isMobile }) => {
 export default function Scene() {
   const groupRef = useRef();
   const isMobile = useIsMobile();
+  const scrollRef = useScrollRef();
+
+  const [quality, setQuality] = useState(() => (isMobile ? 'medium' : 'high'));
+
+  useEffect(() => {
+    setQuality(isMobile ? 'medium' : 'high');
+  }, []);
+
+  const bumpQuality = useCallback((direction) => {
+    setQuality((current) => {
+      const idx = QUALITY_LEVELS.indexOf(current);
+      const nextIdx = Math.min(QUALITY_LEVELS.length - 1, Math.max(0, idx + direction));
+      return QUALITY_LEVELS[nextIdx];
+    });
+  }, []);
 
   useFrame((state) => {
     if (!isMobile) {
@@ -193,49 +235,56 @@ export default function Scene() {
     }
   });
 
+  const isLow = quality === 'low';
+  const isUltra = quality === 'ultra';
+
   return (
     <>
+      <PerformanceMonitor factor={1} onIncline={() => bumpQuality(1)} onDecline={() => bumpQuality(-1)} />
+      <AdaptiveDpr pixelated />
+      <AdaptiveEvents />
+
       <color attach="background" args={['#010102']} />
-      <fog attach="fog" args={['#010102', 5, isMobile ? 12 : 15]} />
-      
-      <Environment preset="city" resolution={isMobile ? 128 : 256} />
-      
+      <fog attach="fog" args={['#010102', 5, isLow ? 10 : 15]} />
+
+      {!isLow && <Environment preset="city" resolution={quality === 'medium' ? 128 : 256} />}
+
       <ambientLight intensity={0.2} />
       <directionalLight position={[10, 10, 5]} intensity={1} color="#0055FF" />
       <directionalLight position={[-10, -10, -5]} intensity={0.5} color="#7000FF" />
 
       <group ref={groupRef}>
-        <CentralCore isMobile={isMobile} />
-        <NeuralNetwork isMobile={isMobile} />
-        <HolographicPanels isMobile={isMobile} />
+        <CentralCore quality={quality} scrollRef={scrollRef} />
+        <NeuralNetwork quality={quality} />
+        <HolographicPanels quality={quality} />
 
-        <Sparkles 
-          count={isMobile ? 150 : 800} 
-          scale={12} 
-          size={1} 
-          speed={0.2} 
-          opacity={0.3} 
-          color="#ffffff" 
+        <Sparkles
+          count={isLow ? 100 : quality === 'medium' ? 300 : isUltra ? 800 : 500}
+          scale={12}
+          size={1}
+          speed={0.2}
+          opacity={0.3}
+          color="#ffffff"
         />
-        <Sparkles 
-          count={isMobile ? 50 : 200} 
-          scale={10} 
-          size={1.5} 
-          speed={0.4} 
-          opacity={0.5} 
-          color="#0055FF" 
+        <Sparkles
+          count={isLow ? 30 : quality === 'medium' ? 80 : isUltra ? 200 : 150}
+          scale={10}
+          size={1.5}
+          speed={0.4}
+          opacity={0.5}
+          color="#0055FF"
         />
       </group>
 
-      <EffectComposer disableNormalPass multisampling={isMobile ? 0 : 4}>
-        {!isMobile && (
+      <EffectComposer disableNormalPass multisampling={isLow ? 0 : isUltra ? 4 : 2}>
+        {isUltra && (
           <DepthOfField focusDistance={0} focalLength={0.02} bokehScale={2} height={480} />
         )}
-        <Bloom 
-          luminanceThreshold={0.2} 
-          luminanceSmoothing={0.9} 
-          height={isMobile ? 150 : 300} 
-          intensity={isMobile ? 1.2 : 1.5} 
+        <Bloom
+          luminanceThreshold={0.2}
+          luminanceSmoothing={0.9}
+          height={isLow ? 150 : 300}
+          intensity={isLow ? 1.0 : isUltra ? 1.5 : 1.2}
         />
       </EffectComposer>
     </>
