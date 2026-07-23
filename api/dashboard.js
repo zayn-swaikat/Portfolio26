@@ -18,7 +18,7 @@ export default async function handler(req, res) {
       referrers
     ] = await Promise.all([
 
-      redis.get("portfolio:stats"),
+      redis.get("portfolio:visits:stats"),
 
       redis.hgetall("analytics:countries"),
 
