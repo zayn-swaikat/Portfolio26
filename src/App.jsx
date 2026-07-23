@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { PerformanceMonitor } from '@react-three/drei';
 
@@ -16,6 +16,12 @@ import './index.css';
 
 function App() {
   const [dpr, setDpr] = useState(1.5);
+
+  useEffect(() => {
+    fetch("/api/notify", {
+      method: "POST",
+    });
+  }, []);
 
   return (
     <div className="app-wrapper">
