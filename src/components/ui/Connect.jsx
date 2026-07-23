@@ -9,11 +9,45 @@ import { track } from '../../analytics/tracker';
 
 
 const contactLinks = [
-  { name: 'Email', href: "mailto:zeinsoykat@gmail.com", icon: Mail, subtext: 'Get in touch' },
-  { name: 'LinkedIn', href: "https://www.linkedin.com/in/zayn-swaikat-8b89553a9/", icon: FaLinkedin, subtext: 'Let\'s connect' },
-  { name: 'WhatsApp', href: "https://wa.me/963932910742", icon: FaWhatsapp, subtext: 'Direct message' },
-  { name: 'Instagram', href: "https://www.instagram.com/zayn_swaikat", icon: FaInstagram, subtext: 'Follow along' },
-  { name: 'GitHub', href: 'https://github.com/zayn-swaikat', icon: FaGithub, subtext: 'View projects' },
+  { 
+    name: 'Email',
+    event: 'email_click',
+    href: "mailto:zeinsoykat@gmail.com",
+    icon: Mail,
+    subtext: 'Get in touch'
+  },
+
+  { 
+    name: 'LinkedIn',
+    event: 'linkedin_click',
+    href: "https://www.linkedin.com/in/zayn-swaikat-8b89553a9/",
+    icon: FaLinkedin,
+    subtext: 'Let\'s connect'
+  },
+
+  { 
+    name: 'WhatsApp',
+    event: 'whatsapp_click',
+    href: "https://wa.me/963932910742",
+    icon: FaWhatsapp,
+    subtext: 'Direct message'
+  },
+
+  { 
+    name: 'Instagram',
+    event: 'instagram_click',
+    href: "https://www.instagram.com/zayn_swaikat",
+    icon: FaInstagram,
+    subtext: 'Follow along'
+  },
+
+  { 
+    name: 'GitHub',
+    event: 'github_click',
+    href: 'https://github.com/zayn-swaikat',
+    icon: FaGithub,
+    subtext: 'View projects'
+  },
 ];
 
 export default function Connect() {
@@ -65,7 +99,7 @@ export default function Connect() {
               <motion.a
                 key={index}
                 href={link.href}
-                onClick={() => track(`${link.name}`)}
+                onClick={() => track(`${link.event}`)}
                 target="_blank"
                 rel="noreferrer"
                 className="connect-card"
