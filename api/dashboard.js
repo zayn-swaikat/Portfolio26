@@ -10,23 +10,42 @@ export default async function handler(req, res) {
 
   try {
 
+    const now = new Date();
+
+    const year = now.getFullYear();
+
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+
+    const day = String(now.getDate()).padStart(2, "0");
+
+    const week = getWeekNumber(now);
+
     const [
-      stats,
-      countries,
-      browsers,
-      devices,
-      referrers
+    total,
+    monthly,
+    weekly,
+    daily,
+    countries,
+    browsers,
+    devices,
+    referrers
     ] = await Promise.all([
 
-      redis.get("portfolio:visits:stats"),
+    redis.get("portfolio:visits:total"),
 
-      redis.hgetall("analytics:countries"),
+    redis.get(`portfolio:visits:${year}-${month}`),
 
-      redis.hgetall("analytics:browsers"),
+    redis.get(`portfolio:visits:${year}-week-${week}`),
 
-      redis.hgetall("analytics:devices"),
+    redis.get(`portfolio:visits:${year}-${month}-${day}`),
 
-      redis.hgetall("analytics:referrers")
+    redis.hgetall("analytics:countries"),
+
+    redis.hgetall("analytics:browsers"),
+
+    redis.hgetall("analytics:devices"),
+
+    redis.hgetall("analytics:referrers"),
 
     ]);
 
@@ -44,22 +63,27 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
 
-      stats: stats || {
-        total: 0,
-        today: 0,
-        week: 0,
-        month: 0
-      },
+    stats: {
 
-      countries: sortObject(countries),
+        total: Number(total || 0),
 
-      browsers: sortObject(browsers),
+        today: Number(daily || 0),
 
-      devices: sortObject(devices),
+        week: Number(weekly || 0),
 
-      referrers: sortObject(referrers),
+        month: Number(monthly || 0),
 
-      updatedAt: new Date().toISOString()
+    },
+
+    countries: sortObject(countries),
+
+    browsers: sortObject(browsers),
+
+    devices: sortObject(devices),
+
+    referrers: sortObject(referrers),
+
+    updatedAt: new Date().toISOString(),
 
     });
 
