@@ -12,15 +12,15 @@ import Projects from './components/ui/Projects';
 import HowIBuild from './components/ui/HowIBuild';
 import Connect from './components/ui/Connect';
 
+import { track } from "./analytics/tracker.js";
+
 import './index.css';
 
 function App() {
   const [dpr, setDpr] = useState(1.5);
 
   useEffect(() => {
-    fetch("/api/notify", {
-      method: "POST",
-    });
+    track("page_view");
   }, []);
 
   return (

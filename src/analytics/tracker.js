@@ -1,40 +1,65 @@
 import { getSessionId } from "./session.js";
 import { getDeviceInfo } from "./device.js";
 
+
 export async function track(event, payload = {}) {
-  const device = await getDeviceInfo();
 
-  await fetch("/api/notify", {
-    method: "POST",
+  try {
 
-    headers: {
-      "Content-Type": "application/json",
-    },
+    const device = await getDeviceInfo();
 
-    body: JSON.stringify({
-      event,
 
-      session: getSessionId(),
+    await fetch("/api/notify", {
 
-      timestamp: Date.now(),
+      method: "POST",
 
-      page: window.location.pathname,
-
-      language: navigator.language,
-
-      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-
-      screen: {
-        width: window.screen.width,
-        height: window.screen.height,
-        pixelRatio: window.devicePixelRatio,
+      headers: {
+        "Content-Type": "application/json",
       },
 
-      referrer: document.referrer || "Direct",
+      body: JSON.stringify({
 
-      ...device,
+        event,
 
-      ...payload,
-    }),
-  });
+        session: getSessionId(),
+
+        timestamp: new Date().toISOString(),
+
+        page: window.location.pathname,
+
+        language: navigator.language,
+
+        timezone:
+          Intl.DateTimeFormat()
+          .resolvedOptions()
+          .timeZone,
+
+
+        screen: {
+          width: window.screen.width,
+          height: window.screen.height,
+          pixelRatio: window.devicePixelRatio,
+        },
+
+
+        referrer:
+          document.referrer || "Direct",
+
+
+        ...device,
+
+        ...payload,
+
+      }),
+    });
+
+
+  } catch(error) {
+
+    console.error(
+      "Analytics error:",
+      error
+    );
+
+  }
 }

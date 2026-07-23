@@ -1,42 +1,23 @@
-import UAParser from "ua-parser-js";
+import { UAParser } from "ua-parser-js";
+
 
 export async function getDeviceInfo() {
+
   const parser = new UAParser();
 
   const result = parser.getResult();
 
-  let highEntropy = {};
-
-  if (navigator.userAgentData?.getHighEntropyValues) {
-    try {
-      highEntropy = await navigator.userAgentData.getHighEntropyValues([
-        "platform",
-        "platformVersion",
-        "architecture",
-        "bitness",
-        "model",
-        "fullVersionList",
-      ]);
-    } catch {}
-  }
 
   return {
+
     browser:
-      result.browser.name && result.browser.version
-        ? `${result.browser.name} ${result.browser.version}`
-        : "Unknown",
+      `${result.browser.name || "Unknown"} ${result.browser.version || ""}`,
 
     os:
-      result.os.name && result.os.version
-        ? `${result.os.name} ${result.os.version}`
-        : "Unknown",
+      `${result.os.name || "Unknown"} ${result.os.version || ""}`,
 
-    device: result.device.type ?? "Desktop",
+    device:
+      result.device.type || "Desktop",
 
-    cpu: result.cpu.architecture ?? highEntropy.architecture ?? "Unknown",
-
-    platform: highEntropy.platform ?? result.os.name,
-
-    model: highEntropy.model || result.device.model || null,
   };
 }
