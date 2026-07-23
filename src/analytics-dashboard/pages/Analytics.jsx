@@ -1,5 +1,6 @@
 import useDashboard from "../hooks/useDashboard";
 import StatsGrid from "../components/StatsGrid";
+import CountriesCard from "../components/CountriesCard";
 
 import "../../styles/Analytics.css";
 
@@ -45,6 +46,12 @@ export default function Analytics(){
     <StatsGrid
       stats={data.stats}
     />
+
+
+    <CountriesCard
+      countries={data.countries}
+    />
+
 
   </div>
 
