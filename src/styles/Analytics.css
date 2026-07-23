@@ -1,0 +1,90 @@
+.analytics-page {
+  min-height:100vh;
+  padding:40px;
+  color:white;
+}
+
+
+.analytics-page header h1 {
+  font-size:42px;
+}
+
+
+.analytics-page header p {
+  opacity:.6;
+}
+
+
+
+.stats-grid {
+
+  display:grid;
+
+  grid-template-columns:
+  repeat(4,1fr);
+
+  gap:20px;
+
+  margin-top:40px;
+
+}
+
+
+
+.stat-card {
+
+  background:
+  rgba(255,255,255,.05);
+
+  border:
+  1px solid rgba(255,255,255,.1);
+
+  backdrop-filter:blur(15px);
+
+  padding:25px;
+
+  border-radius:20px;
+
+}
+
+
+
+.stat-card span {
+
+  display:block;
+
+  margin-top:15px;
+
+  opacity:.6;
+
+}
+
+
+
+.stat-card strong {
+
+  display:block;
+
+  font-size:40px;
+
+  margin-top:10px;
+
+}
+
+
+
+.analytics-panel {
+
+ margin-top:30px;
+
+ padding:30px;
+
+ border-radius:20px;
+
+ background:
+ rgba(255,255,255,.04);
+
+ border:
+ 1px solid rgba(255,255,255,.1);
+
+}

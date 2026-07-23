@@ -54,6 +54,12 @@ export async function incrementVisitCounters() {
 
   ]);
 
+  await redis.hincrby(
+    "portfolio:daily",
+    `${year}-${month}-${day}`,
+    1
+  );
+
 }
 
 
