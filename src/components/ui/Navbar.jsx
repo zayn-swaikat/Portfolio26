@@ -73,7 +73,7 @@ export default function Navbar() {
           <a
             className="btn-contact"
             href='/Resume.pdf'
-            onClick={() => track("resume_download")}
+            onClick={() => track("cv_download")}
           >
             Download Resume
             <ArrowUpRight size={16} />
@@ -120,7 +120,7 @@ export default function Navbar() {
                       justifyContent: 'center',
                     }}
                     href='/Resume.pdf'
-                    onClick={() => track("resume_download")}
+                    onClick={() => track("cv_download")}
                   >
                     Download Resume
                     <ArrowUpRight size={16} />
