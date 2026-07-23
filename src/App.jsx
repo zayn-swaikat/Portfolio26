@@ -14,7 +14,7 @@ import Projects from "./components/ui/Projects";
 import HowIBuild from "./components/ui/HowIBuild";
 import Connect from "./components/ui/Connect";
 
-import Analytics from "./pages/Analytics";
+import Analytics from "./components/ui/Analytics.jsx";
 
 
 import { track } from "./analytics/tracker.js";
