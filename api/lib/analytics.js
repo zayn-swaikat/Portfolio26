@@ -9,6 +9,35 @@ export async function saveAnalytics(data) {
 
   const tasks = [];
 
+  const dateKey =
+    new Date()
+    .toISOString()
+    .split("T")[0];
+
+
+  tasks.push(
+
+    redis.hincrby(
+      "analytics:history",
+      dateKey,
+      1
+    )
+
+  );
+
+  if (data.session) {
+
+    tasks.push(
+
+      redis.sadd(
+        "analytics:sessions",
+        data.session
+      )
+
+    );
+
+  }
+
   if (data.event) {
 
     tasks.push(
@@ -37,16 +66,17 @@ export async function saveAnalytics(data) {
 
   }
 
-  if (data.browser) {
+  if (
+    data.browser &&
+    !data.browser.toLowerCase().includes("headless")
+  ) {
 
     tasks.push(
-
       redis.hincrby(
         "analytics:browsers",
         data.browser,
         1
       )
-
     );
 
   }

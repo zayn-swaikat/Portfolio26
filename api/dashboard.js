@@ -29,7 +29,9 @@ export default async function handler(req, res) {
     countries,
     browsers,
     devices,
-    referrers
+    referrers,
+    history,
+    uniqueVisitors
     ] = await Promise.all([
 
     redis.get("portfolio:visits:total"),
@@ -47,6 +49,14 @@ export default async function handler(req, res) {
     redis.hgetall("analytics:devices"),
 
     redis.hgetall("analytics:referrers"),
+
+    redis.hgetall(
+      "analytics:history"
+    ),
+
+    redis.scard(
+    "analytics:sessions"
+    )
 
     ]);
 
@@ -74,6 +84,9 @@ export default async function handler(req, res) {
 
         month: Number(monthly || 0),
 
+        unique:
+        Number(uniqueVisitors || 0),
+
     },
 
     countries: sortObject(countries),
@@ -83,6 +96,14 @@ export default async function handler(req, res) {
     devices: sortObject(devices),
 
     referrers: sortObject(referrers),
+
+    history:
+    Object.entries(history || {})
+    .sort()
+    .map(([date, visits]) => ({
+    date,
+    visits: Number(visits)
+    })),
 
     updatedAt: new Date().toISOString(),
 
