@@ -1,6 +1,6 @@
 export function formatVisitorMessage(data) {
   return `
-🚀 <b>New Portfolio Visitor</b>
+${getEventTitle(data.event)}
 
 🌍 <b>Country:</b> ${data.country}
 🏙️ <b>City:</b> ${data.city}
@@ -20,4 +20,17 @@ export function formatVisitorMessage(data) {
 🆔 <b>Session:</b>
 <code>${data.session}</code>
 `.trim();
+}
+
+function getEventTitle(event) {
+  const titles = {
+    page_view: "🚀 New Portfolio Visitor",
+    project_view: "📂 Project Viewed",
+    github_click: "⭐ GitHub Click",
+    linkedin_click: "💼 LinkedIn Click",
+    cv_download: "📄 CV Download",
+    contact_submit: "📨 New Message",
+  };
+
+  return titles[event] || "📊 Portfolio Event";
 }

@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { CodeXml, Menu, X, ArrowUpRight } from 'lucide-react';
 import '../../styles/Navbar.css';
 
+import { track } from '../../analytics/tracker';
+
 const navItems = [
   { name: 'About Me', id: 'about' },
   { name: 'Skills', id: 'skills' },
@@ -68,13 +70,14 @@ export default function Navbar() {
         </ul>
 
         <div className="nav-actions">
-          <button
+          <a
             className="btn-contact"
-            onClick={() => scrollToSection('contact')}
+            href='/Resume.pdf'
+            onClick={() => track("resume_download")}
           >
-            Contact Me
+            Download Resume
             <ArrowUpRight size={16} />
-          </button>
+          </a>
         </div>
 
         <button className="mobile-menu-toggle" onClick={() => setIsOpen(!isOpen)}>
@@ -110,17 +113,18 @@ export default function Navbar() {
                   </li>
                 ))}
                 <li>
-                  <button
+                  <a
                     className="btn-contact"
                     style={{
                       width: '100%',
                       justifyContent: 'center',
                     }}
-                    onClick={() => scrollToSection('contact')}
+                    href='/Resume.pdf'
+                    onClick={() => track("resume_download")}
                   >
-                    Contact Me
+                    Download Resume
                     <ArrowUpRight size={16} />
-                  </button>
+                  </a>
                 </li>
               </ul>
             </motion.div>

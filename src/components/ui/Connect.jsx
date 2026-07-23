@@ -5,6 +5,7 @@ import { FaGithub, FaInstagram, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
 import { RiMessengerLine } from 'react-icons/ri';
 
 import '../../styles/Connect.css';
+import { track } from '../../analytics/tracker';
 
 
 const contactLinks = [
@@ -64,6 +65,7 @@ export default function Connect() {
               <motion.a
                 key={index}
                 href={link.href}
+                onClick={() => track(`${link.name}`)}
                 target="_blank"
                 rel="noreferrer"
                 className="connect-card"

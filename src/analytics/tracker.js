@@ -1,5 +1,6 @@
 import { getSessionId } from "./session.js";
 import { getDeviceInfo } from "./device.js";
+import { getTimeOnSite } from "./time.js";
 
 
 export async function track(event, payload = {}) {
@@ -24,6 +25,8 @@ export async function track(event, payload = {}) {
         session: getSessionId(),
 
         timestamp: new Date().toISOString(),
+
+        timeOnSite: getTimeOnSite(),
 
         page: window.location.pathname,
 
