@@ -1,7 +1,16 @@
 import { redis } from "./lib/redis.js";
 import { getWeekNumber, getLastDays } from "./lib/date.js";
+import { checkAuth } from "./lib/auth.js";
 
 export default async function handler(req, res) {
+
+if(!checkAuth(req)){
+
+ return res.status(401).json({
+   error:"Unauthorized"
+ });
+
+}
 
   if (req.method !== "GET") {
     return res.status(405).json({

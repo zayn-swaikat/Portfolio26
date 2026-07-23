@@ -6,10 +6,29 @@ import BrowsersCard from "../components/BrowsersCard";
 import ReferrersCard from "../components/ReferrersCard";
 import VisitorsChart from "../components/VisitorsChart";
 
+import AnalyticsLogin from "./AnalyticsLogin";
+
 import "../../styles/Analytics.css";
 
 
 export default function Analytics(){
+
+
+  const [authenticated,setAuthenticated] = useState(false);
+
+  if(!authenticated){
+
+    return (
+
+      <AnalyticsLogin
+        onLogin={()=>{
+          setAuthenticated(true)
+        }}
+      />
+
+    );
+
+  }
 
   const {
     data,
