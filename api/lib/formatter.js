@@ -4,6 +4,7 @@ export function formatVisitorMessage(data) {
 
 🌍 <b>Country:</b> ${data.country}
 🏙️ <b>City:</b> ${data.city}
+🏢 <b>ISP:</b> ${data.isp}
 
 💻 <b>OS:</b> ${data.os}
 🌐 <b>Browser:</b> ${data.browser}
