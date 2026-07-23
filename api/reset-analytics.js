@@ -12,15 +12,17 @@ export default async function handler(req, res) {
 
   try {
 
+    const keys = await redis.keys(
+      "portfolio:visits:*"
+    );
+
+
+    if (keys.length) {
+      await redis.del(...keys);
+    }
+
+
     await redis.del(
-
-      "portfolio:visits:total",
-
-      "portfolio:visits:today",
-
-      "portfolio:visits:week",
-
-      "portfolio:visits:month",
 
       "analytics:countries",
 
@@ -38,8 +40,13 @@ export default async function handler(req, res) {
 
 
     return res.status(200).json({
+
       success: true,
+
+      deleted: keys.length,
+
       message: "Analytics cleared"
+
     });
 
 
@@ -48,7 +55,7 @@ export default async function handler(req, res) {
     console.error(error);
 
     return res.status(500).json({
-      error: "Reset failed"
+      error:"Reset failed"
     });
 
   }
