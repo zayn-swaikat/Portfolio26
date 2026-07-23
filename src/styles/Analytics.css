@@ -153,3 +153,33 @@
   border-radius:20px;
 
 }
+
+.device-item{
+
+  margin-bottom:18px;
+
+}
+
+
+.device-info{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  margin-bottom:8px;
+
+}
+
+
+.device-name{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+}

@@ -20,3 +20,37 @@ export function getWeekNumber(date) {
   );
 
 }
+
+
+
+export function getLastDays(days = 30){
+
+  const result = [];
+
+  const today = new Date();
+
+
+  for(
+    let i = days - 1;
+    i >= 0;
+    i--
+  ){
+
+    const date = new Date(today);
+
+    date.setDate(
+      today.getDate() - i
+    );
+
+
+    result.push(
+      date.toISOString()
+      .split("T")[0]
+    );
+
+  }
+
+
+  return result;
+
+}

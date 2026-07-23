@@ -1,6 +1,10 @@
 import useDashboard from "../hooks/useDashboard";
 import StatsGrid from "../components/StatsGrid";
 import CountriesCard from "../components/CountriesCard";
+import DevicesCard from "../components/DevicesCard";
+import BrowsersCard from "../components/BrowsersCard";
+import ReferrersCard from "../components/ReferrersCard";
+import VisitorsChart from "../components/VisitorsChart";
 
 import "../../styles/Analytics.css";
 
@@ -52,6 +56,21 @@ export default function Analytics(){
       countries={data.countries}
     />
 
+    <DevicesCard
+      devices={data.devices}
+    />
+
+    <BrowsersCard
+      browsers={data.browsers}
+    />
+
+    <ReferrersCard
+      referrers={data.referrers}
+    />
+
+    <VisitorsChart
+      history={data.history}
+    />
 
   </div>
 

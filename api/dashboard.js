@@ -1,5 +1,5 @@
 import { redis } from "./lib/redis.js";
-import { getWeekNumber } from "./lib/date.js";
+import { getWeekNumber, getLastDays } from "./lib/date.js";
 
 export default async function handler(req, res) {
 
@@ -70,7 +70,18 @@ export default async function handler(req, res) {
 
     };
 
+    const timeline =
+      getLastDays(30)
+      .map((date)=>({
 
+        date,
+
+        visits:
+          Number(
+            history?.[date] || 0
+          )
+
+      }));
 
     return res.status(200).json({
 
@@ -97,13 +108,7 @@ export default async function handler(req, res) {
 
     referrers: sortObject(referrers),
 
-    history:
-    Object.entries(history || {})
-    .sort()
-    .map(([date, visits]) => ({
-    date,
-    visits: Number(visits)
-    })),
+    history: timeline,
 
     updatedAt: new Date().toISOString(),
 
