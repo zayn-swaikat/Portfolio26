@@ -1,4 +1,5 @@
 import { redis } from "./lib/redis.js";
+import { getWeekNumber } from "./lib/date.js";
 
 export default async function handler(req, res) {
 
