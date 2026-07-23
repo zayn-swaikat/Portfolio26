@@ -2,6 +2,7 @@ import { sendTelegramMessage } from "./lib/telegram.js";
 import { formatVisitorMessage } from "./lib/formatter.js";
 import { getGeoData } from "./lib/geo.js";
 import { incrementVisitCounters } from "./lib/counter.js";
+import { saveAnalytics } from "./lib/analytics.js";
 
 export default async function handler(req, res) {
 
@@ -29,6 +30,8 @@ export default async function handler(req, res) {
       ...req.body,
       ...geo,
     };
+
+    await saveAnalytics(visitor);
 
     if (visitor.event === "page_view") {
     await incrementVisitCounters();

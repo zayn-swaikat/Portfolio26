@@ -11,10 +11,16 @@ export async function getDeviceInfo() {
   return {
 
     browser:
-      `${result.browser.name || "Unknown"} ${result.browser.version || ""}`,
+      result.browser.name || "Unknown",
+
+    browserVersion:
+      result.browser.version || "",
 
     os:
-      `${result.os.name || "Unknown"} ${result.os.version || ""}`,
+      result.os.name || "Unknown",
+
+    osVersion:
+      result.os.version || "",
 
     device:
       result.device.type || "Desktop",
