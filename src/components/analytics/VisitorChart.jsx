@@ -9,7 +9,6 @@ import {
 } from "recharts";
 
 export default function VisitorChart({ data }) {
-  // Custom Tooltip for a polished look
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (

@@ -1,5 +1,3 @@
-/* --- Analytics.css --- */
-
 :root {
   --bg-main: #0f1115;
   --bg-card: #181b21;
@@ -22,7 +20,6 @@
   font-family: 'Inter', system-ui, sans-serif;
 }
 
-/* Header */
 .analytics-header {
   display: flex;
   justify-content: space-between;
@@ -45,7 +42,6 @@
   font-size: 1rem;
 }
 
-/* Status Badge */
 .status-badge {
   display: flex;
   align-items: center;
@@ -130,7 +126,6 @@
   line-height: 1;
 }
 
-/* Chart Section */
 .chart-section {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
@@ -154,7 +149,6 @@
   width: 100%;
 }
 
-/* Custom Tooltip */
 .custom-tooltip {
   background: #1e2229;
   border: 1px solid var(--border-color);
@@ -187,7 +181,6 @@
   display: inline-block;
 }
 
-/* Bottom Panel */
 .analytics-panel {
   display: flex;
   gap: 2rem;
@@ -214,7 +207,6 @@
   font-size: 0.9rem;
 }
 
-/* Loading & Error States */
 .analytics-loading-container, .analytics-error {
   display: flex;
   flex-direction: column;
@@ -243,7 +235,6 @@
   margin-bottom: 1rem;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .analytics-header {
     flex-direction: column;
