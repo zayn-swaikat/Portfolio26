@@ -1,4 +1,7 @@
 import useDashboard from "../hooks/useDashboard";
+import StatsGrid from "../components/StatsGrid";
+
+import "../../styles/Analytics.css";
 
 
 export default function Analytics(){
@@ -37,13 +40,13 @@ export default function Analytics(){
 
   return (
 
-    <pre>
-      {JSON.stringify(
-        data,
-        null,
-        2
-      )}
-    </pre>
+  <div>
+
+    <StatsGrid
+      stats={data.stats}
+    />
+
+  </div>
 
   );
 
