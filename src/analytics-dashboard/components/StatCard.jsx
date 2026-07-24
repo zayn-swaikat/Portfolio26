@@ -1,12 +1,9 @@
 import { motion } from "framer-motion";
-import { ArrowUpRight, ArrowDownRight } from "lucide-react";
 
 export default function StatCard({
   title,
   value,
   icon: Icon,
-  trend,
-  isPositive
 }) {
   const formattedValue =
     typeof value === "number"
@@ -46,12 +43,6 @@ export default function StatCard({
       <div className="stat-card-body">
         <strong className="stat-value">{formattedValue}</strong>
 
-        {trend && (
-          <div className={`stat-trend-badge ${isPositive ? "positive" : "negative"}`}>
-            {isPositive ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
-            <span>{trend}</span>
-          </div>
-        )}
       </div>
     </motion.div>
   );
