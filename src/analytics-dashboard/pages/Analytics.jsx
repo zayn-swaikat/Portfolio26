@@ -18,6 +18,12 @@ export default function Analytics(){
 
   const [authenticated,setAuthenticated] = useState(false);
 
+  const {
+    data,
+    loading,
+    error
+  } = useDashboard();
+
   if(!authenticated){
 
     return (
@@ -32,14 +38,6 @@ export default function Analytics(){
 
   }
 
-  const {
-    data,
-    loading,
-    error
-  } = useDashboard();
-
-
-
   if(loading){
 
     return (
@@ -49,8 +47,6 @@ export default function Analytics(){
     );
 
   }
-
-
 
   if(error){
 
