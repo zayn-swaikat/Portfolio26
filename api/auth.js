@@ -1,4 +1,4 @@
-import { serialize } from "cookie";
+import cookie from "cookie";
 
 
 export default async function handler(req,res){
@@ -35,7 +35,7 @@ export default async function handler(req,res){
 
   res.setHeader(
     "Set-Cookie",
-    serialize(
+    cookie.serialize(
       "analytics_auth",
       "authenticated",
       {
