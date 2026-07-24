@@ -33,7 +33,6 @@ function Portfolio() {
 
   return (
     <div className="app-wrapper">
-      <Preloader /> 
 
       <div className="global-canvas-container">
         <Canvas
