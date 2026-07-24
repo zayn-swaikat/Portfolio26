@@ -1,6 +1,3 @@
-import cookie from "cookie";
-
-
 export default async function handler(req,res){
 
 
@@ -35,17 +32,14 @@ export default async function handler(req,res){
 
   res.setHeader(
     "Set-Cookie",
-    cookie.serialize(
-      "analytics_auth",
-      "authenticated",
-      {
-        httpOnly:true,
-        secure:true,
-        sameSite:"strict",
-        maxAge:60*60*24*7,
-        path:"/"
-      }
-    )
+    [
+      "analytics_auth=authenticated",
+      "HttpOnly",
+      "Secure",
+      "SameSite=Strict",
+      "Path=/",
+      "Max-Age=604800"
+    ].join("; ")
   );
 
 
