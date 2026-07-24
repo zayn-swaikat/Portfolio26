@@ -139,7 +139,7 @@
 
 .input-wrapper input:focus ~ .floating-label,
 .input-wrapper input:not(:placeholder-shown) ~ .floating-label {
-  top: 0.65rem;
+  top: 0.5rem;
   transform: translateY(0);
   font-size: 0.7rem;
   font-weight: 600;
