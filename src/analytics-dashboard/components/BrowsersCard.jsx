@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Globe, Compass, Shield, Chrome } from "lucide-react";
+import { Globe, Compass, Shield, AppWindow } from "lucide-react";
 import "./AnalyticsCard.css";
 
 export default function BrowsersCard({ browsers = [] }) {
@@ -9,7 +9,7 @@ export default function BrowsersCard({ browsers = [] }) {
     const key = browserStr.toLowerCase();
     if (key.includes("safari")) return Compass;
     if (key.includes("brave") || key.includes("tor")) return Shield;
-    if (key.includes("chrome")) return Chrome;
+    if (key.includes("chrome")) return AppWindow;
     return Globe;
   };
 
