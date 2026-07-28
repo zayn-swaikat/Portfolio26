@@ -61,6 +61,13 @@ const projectsData = [
     weblink: "#",
   },
   {
+    title: "Orbitly | Astronomy Wordle Game",
+    description: "A daily astronomy challenge inspired by Wordle, allowing players to discover hidden celestial bodies through scientific comparisons. Built with interactive data visualization, streak tracking, and dynamic hint systems covering planetary properties, orbital distance, temperature, moons, and rings.",
+    tags: ["ReactJS", "Vite", "Recharts", "Nivo Charts", "React Select", "CSS3"],
+    github: "https://github.com/zayn-swaikat/Orbitly",
+    live: "https://zayns-orbitly.vercel.app/"
+  },
+  {
     title: "The Kings Barbers",
     description: "A modern barbershop website built with React. Highlights services, smooth navigation, and brand identity with easy WhatsApp contact and booking access.",
     tags: ["ReactJS", "CSS3", "HTML5", "JavaScript"],
@@ -94,6 +101,13 @@ const projectsData = [
     tags: ["ReactJS", "CSS3", "HTML5", "JavaScript"],
     github: "https://github.com/zayn-swaikat/Weather-Scope",
     weblink: "https://weather-scope-six.vercel.app",
+  },
+  {
+    title: "Insta Traitors",
+    description: "A privacy-first Instagram followers analysis tool that transforms Instagram data exports into actionable insights. Users can upload follower and following JSON files to identify non-followers, mutual connections, and relationship patterns without sending any data to external servers.",
+    tags: ["ReactJS", "Vite", "Framer Motion", "TanStack Table", "Recharts", "React Dropzone"],
+    github: "https://github.com/zayn-swaikat/InstaTraitors",
+    live: "https://insta-traitors.vercel.app/"
   },
 ];
 
