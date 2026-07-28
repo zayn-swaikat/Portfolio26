@@ -45,7 +45,7 @@ export default function About() {
               </div>
               <div className="row-text">
                 <p>
-                  I'm a 19-year-old <strong className="highlight">Full-Stack developer</strong> and an Information Technology student at Latakia University who believes great products are built where logic meets bold design. I focus on building applications that don't just look clean, but feel right to use.
+                  I'm a <strong className="highlight">Full-Stack developer</strong> and an Information Technology student at Latakia University who believes great products are built where logic meets bold design. I focus on building applications that don't just look clean, but feel right to use.
                 </p>
               </div>
             </motion.div>
