@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ExternalLink } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa6';
 import '../../styles/Projects.css';
@@ -112,6 +113,10 @@ const projectsData = [
 ];
 
 export default function Projects() {
+  const [showAll, setShowAll] = useState(false);
+
+  const displayedProjects = showAll ? projectsData : projectsData.slice(0, 6);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -152,65 +157,88 @@ export default function Projects() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.05 }}
         >
-          {projectsData.map((project, index) => {
-            const targetLive = project.live || project.weblink;
-            const hasGithub = project.github && project.github !== '#';
-            const hasLive = targetLive && targetLive !== '#';
+          <AnimatePresence mode="popLayout">
+            {displayedProjects.map((project, index) => {
+              const targetLive = project.live || project.weblink;
+              const hasGithub = project.github && project.github !== '#';
+              const hasLive = targetLive && targetLive !== '#';
 
-            return (
-              <motion.div
-                key={index}
-                className={`project-card ${
-                  project.title === "VAGABOND Luxury Travel" ||
-                  project.title === "Food Delivery Intelligence Platform"
-                    ? "featured-project"
-                    : ""
-                }`}
-                variants={cardVariants}
-                whileHover={{ 
-                  y: -8, 
-                  rotateX: 4, 
-                  rotateY: -4,
-                  boxShadow: "0px 20px 40px rgba(0, 0, 0, 0.5)"
-                }}
-              >
-                {project.title === "VAGABOND Luxury Travel" && (
-                  <span className="featured-badge">Featured</span>
-                )}
-                {project.title === "Food Delivery Intelligence Platform" && (
-                  <span className="featured-badge">Featured</span>
-                )}
-                <div className="project-info">
-                  <h3 className="project-title">{project.title}</h3>
-                  <p className="project-description">{project.description}</p>
-                </div>
-
-                <div className="project-footer">
-                  <div className="project-tags">
-                    {project.tags.map((tag, tagIdx) => (
-                      <span key={tagIdx} className="tag">{tag}</span>
-                    ))}
+              return (
+                <motion.div
+                  layout
+                  key={project.title}
+                  className={`project-card ${
+                    project.title === "VAGABOND Luxury Travel" ||
+                    project.title === "Food Delivery Intelligence Platform"
+                      ? "featured-project"
+                      : ""
+                  }`}
+                  variants={cardVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
+                  whileHover={{ 
+                    y: -8, 
+                    rotateX: 4, 
+                    rotateY: -4,
+                    boxShadow: "0px 20px 40px rgba(0, 0, 0, 0.5)"
+                  }}
+                >
+                  {project.title === "VAGABOND Luxury Travel" && (
+                    <span className="featured-badge">Featured</span>
+                  )}
+                  {project.title === "Food Delivery Intelligence Platform" && (
+                    <span className="featured-badge">Featured</span>
+                  )}
+                  <div className="project-info">
+                    <h3 className="project-title">{project.title}</h3>
+                    <p className="project-description">{project.description}</p>
                   </div>
 
-                  <div className="project-links">
-                    {hasGithub && (
-                      <a href={project.github} target="_blank" rel="noreferrer" aria-label="GitHub Repository">
-                        <FaGithub size={18} strokeWidth={1.5} />
-                      </a>
-                    )}
-                    {hasLive && (
-                      <a href={targetLive} target="_blank" rel="noreferrer" aria-label="Live Demo">
-                        <ExternalLink size={18} strokeWidth={1.5} />
-                      </a>
-                    )}
-                  </div>
-                </div>
+                  <div className="project-footer">
+                    <div className="project-tags">
+                      {project.tags.map((tag, tagIdx) => (
+                        <span key={tagIdx} className="tag">{tag}</span>
+                      ))}
+                    </div>
 
-                <div className="project-card-glow"></div>
-              </motion.div>
-            );
-          })}
+                    <div className="project-links">
+                      {hasGithub && (
+                        <a href={project.github} target="_blank" rel="noreferrer" aria-label="GitHub Repository">
+                          <FaGithub size={18} strokeWidth={1.5} />
+                        </a>
+                      )}
+                      {hasLive && (
+                        <a href={targetLive} target="_blank" rel="noreferrer" aria-label="Live Demo">
+                          <ExternalLink size={18} strokeWidth={1.5} />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="project-card-glow"></div>
+                </motion.div>
+              );
+            })}
+          </AnimatePresence>
         </motion.div>
+
+        {projectsData.length > 6 && (
+          <motion.div 
+            className="show-more-container"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5 }}
+          >
+            <button 
+              className="show-more-btn"
+              onClick={() => setShowAll(!showAll)}
+            >
+              {showAll ? 'Show Less' : 'View All Projects'}
+            </button>
+          </motion.div>
+        )}
 
       </div>
     </section>
