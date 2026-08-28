@@ -13,6 +13,13 @@ const projectsData = [
     live: "https://zayns-restaurants-analysis.vercel.app/"
   },
   {
+    title: "SQUEEZE - Cold Pressed Juice",
+    description: "A bold cold-pressed juice experience featuring cinematic scroll animations, immersive storytelling, interactive juice customization, and a vibrant editorial-inspired visual design.",
+    tags: ["ReactJS", "Vite", "Framer Motion", "CSS3", "Lucide React"],
+    github: "https://github.com/zayn-swaikat/squeeze",
+    live: "https://squeezebyzayn.vercel.app/"
+  },
+  {
     title: "Taxi Demand Intelligence",
     description: "A data intelligence dashboard built with Streamlit to analyze taxi demand from WhatsApp request logs. Provides real-time insights including geospatial heatmaps and anomaly detection.",
     tags: ["Python", "Streamlit", "Pandas", "Folium", "Data Analysis"],
@@ -169,7 +176,8 @@ export default function Projects() {
                   key={project.title}
                   className={`project-card ${
                     project.title === "VAGABOND Luxury Travel" ||
-                    project.title === "Food Delivery Intelligence Platform"
+                    project.title === "Food Delivery Intelligence Platform" ||
+                    project.title === "SQUEEZE - Cold Pressed Juice"
                       ? "featured-project"
                       : ""
                   }`}
