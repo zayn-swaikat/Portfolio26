@@ -59,7 +59,7 @@ const projectsData = [
     description: "Track daily wellbeing and finances with this local-first React app. Features mood, nutrition, hydration tracking, plus CSV export and intuitive dashboards with weekly trends.",
     tags: ["ReactJS", "CSS3", "HTML5", "JavaScript"],
     github: "https://github.com/zayn-swaikat/daily-score",
-    live: "https://daily-score.vercel.app"
+    live: "https://zayns-daily-score.vercel.app"
   },
   {
     title: "Dawwerha",
