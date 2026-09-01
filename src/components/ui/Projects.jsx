@@ -16,8 +16,8 @@ const projectsData = [
     title: "SORT IT! - Recycling Game",
     description: "A cartoon-style recycling game featuring fast-paced drag-and-drop gameplay, combo multipliers, increasing difficulty, responsive mobile interactions, and real-time game activity notifications.",
     tags: ["ReactJS", "Vite", "PhaserJS", "Zustand", "Framer Motion", "Vercel"],
-    github: "https://github.com/zayn-swaikat/sort-it",
-    live: "YOUR_LIVE_LINK"
+    github: "https://github.com/zayn-swaikat/SORT-IT-",
+    live: "https://sort-it-by-zayn.vercel.app/"
   },
   {
     title: "SQUEEZE - Cold Pressed Juice",
