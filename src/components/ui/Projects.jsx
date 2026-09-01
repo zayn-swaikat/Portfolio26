@@ -13,11 +13,25 @@ const projectsData = [
     live: "https://zayns-restaurants-analysis.vercel.app/"
   },
   {
+    title: "SORT IT! - Recycling Game",
+    description: "A cartoon-style recycling game featuring fast-paced drag-and-drop gameplay, combo multipliers, increasing difficulty, responsive mobile interactions, and real-time game activity notifications.",
+    tags: ["ReactJS", "Vite", "PhaserJS", "Zustand", "Framer Motion", "Vercel"],
+    github: "https://github.com/zayn-swaikat/sort-it",
+    live: "YOUR_LIVE_LINK"
+  },
+  {
     title: "SQUEEZE - Cold Pressed Juice",
     description: "A bold cold-pressed juice experience featuring cinematic scroll animations, immersive storytelling, interactive juice customization, and a vibrant editorial-inspired visual design.",
     tags: ["ReactJS", "Vite", "Framer Motion", "CSS3", "Lucide React"],
     github: "https://github.com/zayn-swaikat/squeeze",
     live: "https://squeezebyzayn.vercel.app/"
+  },
+  {
+    title: "VAGABOND Luxury Travel",
+    description: "A premium luxury travel website featuring cinematic animations, immersive storytelling, curated destinations, interactive galleries, and an elegant concierge-inspired user experience with high-end visual design.",
+    tags: ["ReactJS", "Vite", "Framer Motion", "CSS3", "SwiperJS"],
+    github: "https://github.com/zayn-swaikat/VAGABOND",
+    live: "https://travelwithvagabond.vercel.app/"
   },
   {
     title: "Taxi Demand Intelligence",
@@ -27,11 +41,11 @@ const projectsData = [
     live: "https://taxi-analysis-frawrkzhsjkyvbcat9eafm.streamlit.app/"
   },
   {
-    title: "VAGABOND Luxury Travel",
-    description: "A premium luxury travel website featuring cinematic animations, immersive storytelling, curated destinations, interactive galleries, and an elegant concierge-inspired user experience with high-end visual design.",
-    tags: ["ReactJS", "Vite", "Framer Motion", "CSS3", "SwiperJS"],
-    github: "https://github.com/zayn-swaikat/VAGABOND",
-    live: "https://travelwithvagabond.vercel.app/"
+    title: "Insta Traitors",
+    description: "A privacy-first Instagram followers analysis tool that transforms Instagram data exports into actionable insights. Users can upload follower and following JSON files to identify non-followers, mutual connections, and relationship patterns without sending any data to external servers.",
+    tags: ["ReactJS", "Vite", "Framer Motion", "TanStack Table", "Recharts", "React Dropzone"],
+    github: "https://github.com/zayn-swaikat/InstaTraitors",
+    live: "https://insta-traitors.vercel.app/"
   },
   {
     title: "Mediterraneo Restaurant",
@@ -109,13 +123,6 @@ const projectsData = [
     tags: ["ReactJS", "CSS3", "HTML5", "JavaScript"],
     github: "https://github.com/zayn-swaikat/Weather-Scope",
     weblink: "https://weather-scope-six.vercel.app",
-  },
-  {
-    title: "Insta Traitors",
-    description: "A privacy-first Instagram followers analysis tool that transforms Instagram data exports into actionable insights. Users can upload follower and following JSON files to identify non-followers, mutual connections, and relationship patterns without sending any data to external servers.",
-    tags: ["ReactJS", "Vite", "Framer Motion", "TanStack Table", "Recharts", "React Dropzone"],
-    github: "https://github.com/zayn-swaikat/InstaTraitors",
-    live: "https://insta-traitors.vercel.app/"
   },
 ];
 
