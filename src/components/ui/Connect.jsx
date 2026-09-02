@@ -36,7 +36,7 @@ const contactLinks = [
   { 
     name: 'Instagram',
     event: 'instagram_click',
-    href: "https://www.instagram.com/zayn_swaikat",
+    href: "https://www.instagram.com/lokis.variant.zayn",
     icon: FaInstagram,
     subtext: 'Follow along'
   },
