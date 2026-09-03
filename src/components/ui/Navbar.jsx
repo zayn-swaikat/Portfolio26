@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CodeXml, Menu, X, ArrowUpRight } from 'lucide-react';
+import {
+  Sparkles,
+  Menu,
+  X,
+  ArrowUpRight,
+  ChevronRight,
+} from 'lucide-react';
+
 import '../../styles/Navbar.css';
 
-import { track } from '../../analytics/tracker';
-
 const navItems = [
-  { name: 'About Me', id: 'about' },
-  { name: 'Skills', id: 'skills' },
-  { name: 'Projects', id: 'projects' },
-  { name: 'Process', id: 'process' },
-  { name: 'Contact', id: 'contact' },
+  { name: 'About', id: 'about', code: '01' },
+  { name: 'Skills', id: 'skills', code: '02' },
+  { name: 'Projects', id: 'projects', code: '03' },
+  { name: 'Process', id: 'process', code: '04' },
+  { name: 'Contact', id: 'contact', code: '05' },
 ];
 
 export default function Navbar() {
@@ -19,51 +24,93 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      
-      if (scrollTop > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 50);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    handleScroll();
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
 
   const scrollToSection = (id) => {
     setIsOpen(false);
+
+    if (id === 'home') {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+      return;
+    }
+
     const element = document.getElementById(id);
+
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
     }
   };
 
   return (
     <motion.nav
-      className={`navbar ${isScrolled ? 'scrolled' : ''}`}
-      initial={{ y: -100, x: 0, opacity: 0 }}
+      className={`navbar ${isScrolled ? 'scrolled' : ''} ${
+        isOpen ? 'menu-open' : ''
+      }`}
+      initial={{ y: -30, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      transition={{
+        duration: 0.8,
+        ease: [0.16, 1, 0.3, 1],
+      }}
     >
       <div className="navbar-container">
 
-        <div className="nav-logo" onClick={() => scrollToSection('home')}>
-          <CodeXml size={28} />
-          Z.A.S
-        </div>
+        <button
+          className="nav-logo"
+          onClick={() => scrollToSection('home')}
+          aria-label="Back to top"
+        >
+          <span className="logo-mark">
+            <Sparkles size={15} strokeWidth={1.6} />
+          </span>
+
+          <span className="logo-text">
+            ZAYN
+            <span className="logo-dot">.</span>
+          </span>
+        </button>
 
         <ul className="nav-links">
           {navItems.map((item, index) => (
-            <motion.li 
+            <motion.li
               key={item.id}
               initial={{ y: -10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              transition={{
+                duration: 0.5,
+                delay: 0.15 + index * 0.07,
+              }}
             >
-              <button onClick={() => scrollToSection(item.id)} className="nav-link-btn">
-                {item.name}
+              <button
+                onClick={() => scrollToSection(item.id)}
+                className="nav-link-btn"
+              >
+                <span className="nav-index">{item.code}</span>
+                <span>{item.name}</span>
               </button>
             </motion.li>
           ))}
@@ -72,61 +119,117 @@ export default function Navbar() {
         <div className="nav-actions">
           <a
             className="btn-contact"
-            href='/Resume.pdf'
-            onClick={() => track("cv_download")}
+            href="/Resume.pdf"
+            download
           >
-            Download Resume
-            <ArrowUpRight size={16} />
+            <span>Resume</span>
+            <ArrowUpRight size={14} strokeWidth={1.8} />
           </a>
         </div>
 
-        <button className="mobile-menu-toggle" onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        <button
+          className="mobile-menu-toggle"
+          onClick={() => setIsOpen((prev) => !prev)}
+          aria-label={isOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={isOpen}
+        >
+          {isOpen ? (
+            <X size={20} strokeWidth={1.7} />
+          ) : (
+            <Menu size={20} strokeWidth={1.7} />
+          )}
         </button>
       </div>
 
       <AnimatePresence>
         {isOpen && (
           <>
-            <motion.div 
+            <motion.div
               className="mobile-backdrop"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.25 }}
               onClick={() => setIsOpen(false)}
             />
 
-            <motion.div 
+            <motion.div
               className="mobile-nav-overlay"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              initial={{
+                opacity: 0,
+                y: -12,
+                scale: 0.98,
+              }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                scale: 1,
+              }}
+              exit={{
+                opacity: 0,
+                y: -12,
+                scale: 0.98,
+              }}
+              transition={{
+                duration: 0.35,
+                ease: [0.16, 1, 0.3, 1],
+              }}
             >
+              <div className="mobile-menu-header">
+                <span>TIMELINE</span>
+                <span className="mobile-menu-status">
+                  <i />
+                  ACTIVE
+                </span>
+              </div>
+
               <ul className="mobile-nav-links">
-                {navItems.map((item) => (
-                  <li key={item.id}>
-                    <button onClick={() => scrollToSection(item.id)} className="mobile-link-btn">
-                      {item.name}
-                    </button>
-                  </li>
-                ))}
-                <li>
-                  <a
-                    className="btn-contact"
-                    style={{
-                      width: '100%',
-                      justifyContent: 'center',
+                {navItems.map((item, index) => (
+                  <motion.li
+                    key={item.id}
+                    initial={{ opacity: 0, x: -12 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{
+                      delay: 0.08 + index * 0.06,
+                      duration: 0.35,
                     }}
-                    href='/Resume.pdf'
-                    onClick={() => track("cv_download")}
                   >
-                    Download Resume
-                    <ArrowUpRight size={16} />
-                  </a>
-                </li>
+                    <button
+                      onClick={() => scrollToSection(item.id)}
+                      className="mobile-link-btn"
+                    >
+                      <span className="mobile-link-index">
+                        {item.code}
+                      </span>
+
+                      <span>{item.name}</span>
+
+                      <ChevronRight
+                        size={17}
+                        strokeWidth={1.5}
+                      />
+                    </button>
+                  </motion.li>
+                ))}
               </ul>
+
+              <a
+                className="mobile-resume"
+                href="/Resume.pdf"
+                download
+                onClick={() => setIsOpen(false)}
+              >
+                <span>Download Resume</span>
+                <ArrowUpRight
+                  size={16}
+                  strokeWidth={1.8}
+                />
+              </a>
+
+              <div className="mobile-menu-footer">
+                <span>VARIANT // 001</span>
+                <span>THE TIMELINE IS OPEN</span>
+              </div>
             </motion.div>
           </>
         )}
