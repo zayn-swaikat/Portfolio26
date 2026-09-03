@@ -14,9 +14,16 @@ import Analytics from "./analytics-dashboard/pages/Analytics.jsx";
 
 import ScrollVelocity from "./ScrollVelocity.jsx";
 
+import { track } from "./analytics/tracker.js";
+
 import "./index.css";
 
 function Portfolio() {
+
+  useEffect(() => {
+    track("page_view");
+  }, []);
+
   return (
     <div className="app-wrapper">
 
