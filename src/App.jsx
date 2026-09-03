@@ -1,9 +1,5 @@
-import React, { Suspense, useState, useEffect } from "react";
-import { Canvas } from "@react-three/fiber";
-import { PerformanceMonitor } from "@react-three/drei";
+import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-import Preloader from "./components/ui/Preloader";
 
 import Scene from "./components/3d/Scene";
 
@@ -17,16 +13,12 @@ import Connect from "./components/ui/Connect";
 
 import Analytics from "./analytics-dashboard/pages/Analytics.jsx";
 
-
 import { track } from "./analytics/tracker.js";
 
 import "./index.css";
 
 
-
 function Portfolio() {
-  const [dpr, setDpr] = useState(1.5);
-
   useEffect(() => {
     track("page_view");
   }, []);
@@ -34,25 +26,7 @@ function Portfolio() {
   return (
     <div className="app-wrapper">
 
-      <div className="global-canvas-container">
-        <Canvas
-          eventSource={document.body}
-          eventPrefix="client"
-          camera={{ position: [0, 0, 8], fov: 45 }}
-          dpr={dpr}
-          gl={{ powerPreference: "high-performance", antialias: false }}
-        >
-          <PerformanceMonitor
-            onDecline={() => setDpr(1)}
-            onIncline={() => setDpr(1.5)}
-            flipflops={3}
-          >
-            <Suspense fallback={null}>
-              <Scene />
-            </Suspense>
-          </PerformanceMonitor>
-        </Canvas>
-      </div>
+      <Scene />
 
       <main className="ui-layer">
         <Navbar />
@@ -63,29 +37,30 @@ function Portfolio() {
         <HowIBuild />
         <Connect />
       </main>
+
     </div>
   );
 }
 
-export default function App(){
 
+export default function App() {
   return (
-
     <BrowserRouter>
 
       <Routes>
 
         <Route
-        path="/"
-        element={<Portfolio/>}
+          path="/"
+          element={<Portfolio />}
         />
 
         <Route
-        path="/analytics"
-        element={<Analytics/>}
+          path="/analytics"
+          element={<Analytics />}
         />
 
       </Routes>
+
     </BrowserRouter>
   );
 }

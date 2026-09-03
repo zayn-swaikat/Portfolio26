@@ -11,6 +11,13 @@
   --shadow-md: 0 16px 40px rgba(44, 38, 63, 0.05);
   --shadow-lg: 0 32px 80px rgba(44, 38, 63, 0.08);
 
+  --bg: #030604;
+  --bg-deep: #010201;
+  --green: #39ff88;
+  --green-dark: #0b6b3a;
+  --green-glow: rgba(57, 255, 136, 0.35);
+  --gold: #c9a227;
+
   --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -60,4 +67,22 @@ body, html {
 
 .ui-layer > * {
   pointer-events: auto;
+}
+
+.global-scene-container {
+  position: fixed;
+  inset: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  z-index: 0;
+
+  pointer-events: none;
+}
+
+.ui-layer {
+  position: relative;
+  z-index: 10;
+  width: 100%;
 }
