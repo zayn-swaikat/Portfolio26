@@ -46,12 +46,10 @@ export default function App() {
           element={<Portfolio />}
         />
 
-        {/* 
         <Route
           path="/analytics"
           element={<Analytics />}
         />
-        */}
 
       </Routes>
     </BrowserRouter>
