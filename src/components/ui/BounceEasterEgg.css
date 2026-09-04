@@ -17,10 +17,16 @@
 
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
+
+  pointer-events: auto;
+
+  touch-action: none;
+  overscroll-behavior: none;
 }
 
 .bounce-easter-shell {
   position: relative;
+  z-index: 1000000;
 
   width: min(1200px, 96vw);
   height: min(760px, 92dvh);
@@ -38,11 +44,13 @@
   box-shadow:
     0 30px 100px rgba(0, 0, 0, 0.7),
     0 0 80px rgba(255, 255, 255, 0.03);
+
+  pointer-events: auto;
 }
 
 .bounce-easter-header {
   position: relative;
-  z-index: 2;
+  z-index: 3;
 
   flex: 0 0 54px;
 
@@ -56,84 +64,31 @@
 
   border-bottom: 1px solid
     rgba(255, 255, 255, 0.07);
-}
 
-.bounce-easter-meta {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-
-  color: #666;
-
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-}
-
-.bounce-status-dot {
-  width: 6px;
-  height: 6px;
-
-  border-radius: 50%;
-
-  background: #fff;
-
-  box-shadow:
-    0 0 10px rgba(255, 255, 255, 0.8);
-}
-
-.bounce-easter-actions {
-  display: flex;
-  gap: 6px;
-}
-
-.bounce-easter-actions button {
-  width: 34px;
-  height: 34px;
-
-  display: grid;
-  place-items: center;
-
-  padding: 0;
-
-  border: 1px solid
-    rgba(255, 255, 255, 0.08);
-
-  border-radius: 8px;
-
-  background: transparent;
-  color: #777;
-
-  cursor: pointer;
-
-  transition: 0.2s ease;
-}
-
-.bounce-easter-actions button:hover {
-  color: #fff;
-
-  background: rgba(255, 255, 255, 0.06);
-
-  border-color:
-    rgba(255, 255, 255, 0.16);
+  pointer-events: auto;
 }
 
 .bounce-easter-game {
   position: relative;
+  z-index: 1;
 
   flex: 1 1 auto;
-
   min-height: 0;
 
   width: 100%;
 
   background: #08080c;
+
+  pointer-events: auto;
+
+  overflow: hidden;
 }
 
 .bounce-easter-iframe {
   position: absolute;
-
   inset: 0;
+
+  z-index: 2;
 
   display: block;
 
@@ -143,11 +98,15 @@
   border: 0;
 
   background: #08080c;
+
+  pointer-events: auto;
+
+  touch-action: none;
 }
 
 .bounce-easter-footer {
   position: relative;
-  z-index: 2;
+  z-index: 3;
 
   flex: 0 0 42px;
 
@@ -167,6 +126,8 @@
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.15em;
+
+  pointer-events: auto;
 }
 
 @media (max-width: 700px) {
@@ -184,29 +145,9 @@
 
   .bounce-easter-header {
     flex-basis: 48px;
-
-    padding:
-      env(safe-area-inset-top)
-      12px
-      0
-      12px;
-
-    box-sizing: content-box;
-  }
-
-  .bounce-easter-meta {
-    font-size: 8px;
   }
 
   .bounce-easter-footer {
     flex-basis: 36px;
-
-    padding:
-      0
-      12px
-      env(safe-area-inset-bottom)
-      12px;
-
-    font-size: 7px;
   }
 }

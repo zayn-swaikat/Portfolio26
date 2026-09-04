@@ -42,20 +42,69 @@ export default function BounceEasterEgg({ triggerRef }) {
   useEffect(() => {
     if (!isOpen) return;
 
+    const html = document.documentElement;
+    const body = document.body;
+
+    const scrollY = window.scrollY;
+
+    const previousHtmlOverflow =
+      html.style.overflow;
+
+    const previousBodyOverflow =
+      body.style.overflow;
+
+    const previousBodyPosition =
+      body.style.position;
+
+    const previousBodyTop =
+      body.style.top;
+
+    const previousBodyWidth =
+      body.style.width;
+
+    html.style.overflow = "hidden";
+
+    body.style.overflow = "hidden";
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.width = "100%";
+
     const handleKeyDown = (event) => {
       if (event.key === "Escape") {
         setIsOpen(false);
       }
     };
 
-    document.addEventListener("keydown", handleKeyDown);
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    document.addEventListener(
+      "keydown",
+      handleKeyDown
+    );
 
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = previousOverflow;
+      document.removeEventListener(
+        "keydown",
+        handleKeyDown
+      );
+
+      html.style.overflow =
+        previousHtmlOverflow;
+
+      body.style.overflow =
+        previousBodyOverflow;
+
+      body.style.position =
+        previousBodyPosition;
+
+      body.style.top =
+        previousBodyTop;
+
+      body.style.width =
+        previousBodyWidth;
+
+      window.scrollTo(
+        0,
+        scrollY
+      );
     };
   }, [isOpen]);
 
