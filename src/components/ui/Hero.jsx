@@ -3,8 +3,11 @@ import { motion } from 'framer-motion';
 import { ArrowDownRight, Sparkles } from 'lucide-react';
 import GhostFibers from './GhostFibers';
 import '../../styles/Hero.css';
+import { useRef } from "react";
+import BounceEasterEgg from "./BounceEasterEgg";
 
 export default function Hero() {
+  const variantRef = useRef(null);
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
     if (element) {
@@ -120,7 +123,9 @@ export default function Hero() {
         >
           <span>LAT // 34.7333° N</span>
           <span>•</span>
-          <span>VARIANT // 001</span>
+          <span ref={variantRef}>
+            VARIANT // 001
+          </span>
         </motion.div>
       </div>
 
@@ -137,6 +142,9 @@ export default function Hero() {
         </div>
       </motion.div>
 
+      <BounceEasterEgg
+        triggerRef={variantRef}
+      />
     </section>
   );
 }

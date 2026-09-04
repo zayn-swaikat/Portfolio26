@@ -1,0 +1,226 @@
+.bounce-easter-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background:
+    radial-gradient(
+      circle at 50% 45%,
+      rgba(255, 255, 255, 0.045),
+      transparent 35%
+    ),
+    rgba(4, 4, 7, 0.96);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.bounce-easter-shell {
+  width: min(1200px, 96vw);
+  height: min(760px, 92vh);
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  background: #08080c;
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.025),
+    0 30px 100px rgba(0, 0, 0, 0.65),
+    0 0 80px rgba(255, 255, 255, 0.025);
+
+  border-radius: 18px;
+}
+
+.bounce-easter-header {
+  min-height: 54px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 18px;
+
+  border-bottom: 1px solid
+    rgba(255, 255, 255, 0.07);
+
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.bounce-easter-meta {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+
+  color: #666;
+}
+
+.bounce-status-dot {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: #fff;
+
+  box-shadow:
+    0 0 8px rgba(255, 255, 255, 0.8);
+
+  animation: bounce-status-pulse 1.6s
+    ease-in-out infinite;
+}
+
+@keyframes bounce-status-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(0.8);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.bounce-easter-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bounce-easter-actions button {
+  width: 34px;
+  height: 34px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid
+    rgba(255, 255, 255, 0.08);
+
+  border-radius: 8px;
+
+  background: transparent;
+  color: #777;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.bounce-easter-actions button:hover {
+  color: #fff;
+
+  background: rgba(255, 255, 255, 0.06);
+
+  border-color:
+    rgba(255, 255, 255, 0.16);
+}
+
+.bounce-easter-game {
+  position: relative;
+
+  flex: 1;
+
+  min-height: 0;
+
+  background: #08080c;
+}
+
+.bounce-easter-iframe {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  border: 0;
+
+  background: #08080c;
+}
+
+.bounce-easter-footer {
+  min-height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 18px;
+
+  border-top: 1px solid
+    rgba(255, 255, 255, 0.06);
+
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+
+  color: #444;
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+  .bounce-easter-overlay {
+    padding: 0;
+  }
+
+  .bounce-easter-shell {
+    width: 100%;
+    height: 100dvh;
+
+    border-radius: 0;
+    border: 0;
+  }
+
+  .bounce-easter-header {
+    min-height: 48px;
+
+    padding:
+      env(safe-area-inset-top)
+      12px
+      0
+      12px;
+
+    box-sizing: content-box;
+  }
+
+  .bounce-easter-meta {
+    font-size: 8px;
+    letter-spacing: 0.12em;
+  }
+
+  .bounce-easter-actions button {
+    width: 32px;
+    height: 32px;
+  }
+
+  .bounce-easter-footer {
+    min-height: 36px;
+
+    padding:
+      0
+      12px
+      env(safe-area-inset-bottom)
+      12px;
+
+    font-size: 7px;
+  }
+}
