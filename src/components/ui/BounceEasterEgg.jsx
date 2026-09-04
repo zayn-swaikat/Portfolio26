@@ -3,12 +3,9 @@ import { X, Maximize2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import "./BounceEasterEgg.css";
 
-const BOUNCE_URL =
-  "https://bounce-it-by-zayn.vercel.app/";
+const BOUNCE_URL = "https://bounce-it-by-zayn.vercel.app/";
 
-export default function BounceEasterEgg({
-  triggerRef,
-}) {
+export default function BounceEasterEgg({ triggerRef }) {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -34,17 +31,10 @@ export default function BounceEasterEgg({
       }
     };
 
-    element.addEventListener(
-      "click",
-      handleClick
-    );
+    element.addEventListener("click", handleClick);
 
     return () => {
-      element.removeEventListener(
-        "click",
-        handleClick
-      );
-
+      element.removeEventListener("click", handleClick);
       clearTimeout(resetTimer);
     };
   }, [triggerRef]);
@@ -58,34 +48,25 @@ export default function BounceEasterEgg({
       }
     };
 
-    document.addEventListener(
-      "keydown",
-      handleKeyDown
-    );
+    document.addEventListener("keydown", handleKeyDown);
 
+    const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
     return () => {
-      document.removeEventListener(
-        "keydown",
-        handleKeyDown
-      );
-
-      document.body.style.overflow = "";
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = previousOverflow;
     };
   }, [isOpen]);
 
   const openFullscreen = () => {
-    const iframe =
-      document.querySelector(
-        ".bounce-easter-iframe"
-      );
+    const iframe = document.querySelector(
+      ".bounce-easter-iframe"
+    );
 
     if (!iframe) return;
 
-    if (iframe.requestFullscreen) {
-      iframe.requestFullscreen();
-    }
+    iframe.requestFullscreen?.();
   };
 
   return (
@@ -93,15 +74,9 @@ export default function BounceEasterEgg({
       {isOpen && (
         <motion.div
           className="bounce-easter-overlay"
-          initial={{
-            opacity: 0,
-          }}
-          animate={{
-            opacity: 1,
-          }}
-          exit={{
-            opacity: 0,
-          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
         >
           <motion.div
             className="bounce-easter-shell"
@@ -125,35 +100,30 @@ export default function BounceEasterEgg({
               ease: [0.22, 1, 0.36, 1],
             }}
           >
-            <div className="bounce-easter-header">
+            <header className="bounce-easter-header">
               <div className="bounce-easter-meta">
                 <span className="bounce-status-dot" />
-
-                <span>
-                  HIDDEN VARIANT DETECTED
-                </span>
+                <span>HIDDEN VARIANT DETECTED</span>
               </div>
 
               <div className="bounce-easter-actions">
                 <button
                   type="button"
                   onClick={openFullscreen}
-                  aria-label="Open BOUNCE fullscreen"
+                  aria-label="Fullscreen"
                 >
                   <Maximize2 size={16} />
                 </button>
 
                 <button
                   type="button"
-                  onClick={() =>
-                    setIsOpen(false)
-                  }
-                  aria-label="Close BOUNCE"
+                  onClick={() => setIsOpen(false)}
+                  aria-label="Close"
                 >
                   <X size={18} />
                 </button>
               </div>
-            </div>
+            </header>
 
             <div className="bounce-easter-game">
               <iframe
@@ -161,18 +131,14 @@ export default function BounceEasterEgg({
                 src={BOUNCE_URL}
                 title="BOUNCE — Keep it alive."
                 allow="fullscreen"
+                loading="eager"
               />
             </div>
 
-            <div className="bounce-easter-footer">
-              <span>
-                BOUNCE // 006
-              </span>
-
-              <span>
-                ESC TO RETURN TO SYSTEM
-              </span>
-            </div>
+            <footer className="bounce-easter-footer">
+              <span>BOUNCE // 006</span>
+              <span>ESC TO RETURN TO SYSTEM</span>
+            </footer>
           </motion.div>
         </motion.div>
       )}

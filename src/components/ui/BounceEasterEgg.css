@@ -1,7 +1,11 @@
 .bounce-easter-overlay {
   position: fixed;
   inset: 0;
-  z-index: 99999;
+
+  width: 100vw;
+  height: 100dvh;
+
+  z-index: 999999;
 
   display: flex;
   align-items: center;
@@ -9,21 +13,17 @@
 
   padding: 24px;
 
-  background:
-    radial-gradient(
-      circle at 50% 45%,
-      rgba(255, 255, 255, 0.045),
-      transparent 35%
-    ),
-    rgba(4, 4, 7, 0.96);
+  background: rgba(4, 4, 7, 0.96);
 
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
 }
 
 .bounce-easter-shell {
+  position: relative;
+
   width: min(1200px, 96vw);
-  height: min(760px, 92vh);
+  height: min(760px, 92dvh);
 
   display: flex;
   flex-direction: column;
@@ -33,17 +33,18 @@
   background: #08080c;
 
   border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
 
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.025),
-    0 30px 100px rgba(0, 0, 0, 0.65),
-    0 0 80px rgba(255, 255, 255, 0.025);
-
-  border-radius: 18px;
+    0 30px 100px rgba(0, 0, 0, 0.7),
+    0 0 80px rgba(255, 255, 255, 0.03);
 }
 
 .bounce-easter-header {
-  min-height: 54px;
+  position: relative;
+  z-index: 2;
+
+  flex: 0 0 54px;
 
   display: flex;
   align-items: center;
@@ -51,10 +52,10 @@
 
   padding: 0 18px;
 
+  background: #08080c;
+
   border-bottom: 1px solid
     rgba(255, 255, 255, 0.07);
-
-  background: rgba(255, 255, 255, 0.015);
 }
 
 .bounce-easter-meta {
@@ -62,11 +63,11 @@
   align-items: center;
   gap: 9px;
 
+  color: #666;
+
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.16em;
-
-  color: #666;
 }
 
 .bounce-status-dot {
@@ -78,28 +79,11 @@
   background: #fff;
 
   box-shadow:
-    0 0 8px rgba(255, 255, 255, 0.8);
-
-  animation: bounce-status-pulse 1.6s
-    ease-in-out infinite;
-}
-
-@keyframes bounce-status-pulse {
-  0%,
-  100% {
-    opacity: 0.4;
-    transform: scale(0.8);
-  }
-
-  50% {
-    opacity: 1;
-    transform: scale(1);
-  }
+    0 0 10px rgba(255, 255, 255, 0.8);
 }
 
 .bounce-easter-actions {
   display: flex;
-  align-items: center;
   gap: 6px;
 }
 
@@ -109,6 +93,8 @@
 
   display: grid;
   place-items: center;
+
+  padding: 0;
 
   border: 1px solid
     rgba(255, 255, 255, 0.08);
@@ -120,10 +106,7 @@
 
   cursor: pointer;
 
-  transition:
-    color 0.2s ease,
-    background 0.2s ease,
-    border-color 0.2s ease;
+  transition: 0.2s ease;
 }
 
 .bounce-easter-actions button:hover {
@@ -138,14 +121,20 @@
 .bounce-easter-game {
   position: relative;
 
-  flex: 1;
+  flex: 1 1 auto;
 
   min-height: 0;
+
+  width: 100%;
 
   background: #08080c;
 }
 
 .bounce-easter-iframe {
+  position: absolute;
+
+  inset: 0;
+
   display: block;
 
   width: 100%;
@@ -157,7 +146,10 @@
 }
 
 .bounce-easter-footer {
-  min-height: 42px;
+  position: relative;
+  z-index: 2;
+
+  flex: 0 0 42px;
 
   display: flex;
   align-items: center;
@@ -165,17 +157,17 @@
 
   padding: 0 18px;
 
+  background: #08080c;
+
   border-top: 1px solid
     rgba(255, 255, 255, 0.06);
+
+  color: #444;
 
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.15em;
-
-  color: #444;
 }
-
-/* MOBILE */
 
 @media (max-width: 700px) {
   .bounce-easter-overlay {
@@ -183,15 +175,15 @@
   }
 
   .bounce-easter-shell {
-    width: 100%;
+    width: 100vw;
     height: 100dvh;
 
-    border-radius: 0;
     border: 0;
+    border-radius: 0;
   }
 
   .bounce-easter-header {
-    min-height: 48px;
+    flex-basis: 48px;
 
     padding:
       env(safe-area-inset-top)
@@ -204,16 +196,10 @@
 
   .bounce-easter-meta {
     font-size: 8px;
-    letter-spacing: 0.12em;
-  }
-
-  .bounce-easter-actions button {
-    width: 32px;
-    height: 32px;
   }
 
   .bounce-easter-footer {
-    min-height: 36px;
+    flex-basis: 36px;
 
     padding:
       0
