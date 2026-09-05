@@ -123,8 +123,10 @@ export default function Hero() {
         >
           <span>LAT // 34.7333° N</span>
           <span>•</span>
-          <span ref={variantRef}>
-            VARIANT // 001
+          <span ref={variantRef} className="variant-coordinate">
+            <span className="variant-label">VARIANT</span>
+            <span className="variant-separator">//</span>
+            <span className="variant-number">001</span>
           </span>
         </motion.div>
       </div>

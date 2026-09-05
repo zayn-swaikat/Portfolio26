@@ -13,6 +13,27 @@
   pointer-events: none;
 }
 
+.hero-container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+  z-index: 0;
+
+  background:
+    radial-gradient(
+      circle at 72% 32%,
+      rgba(201, 162, 39, 0.1375),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 18% 68%,
+      rgba(57, 255, 136, 0.0875),
+      transparent 30%
+    );
+}
+
 .hero-content {
   position: relative;
   z-index: 10;
@@ -154,7 +175,8 @@
   color: #f4fff8;
 
   text-shadow:
-    0 0 50px rgba(57, 255, 136, 0.035);
+    0 0 50px rgba(57, 255, 136, 0.14),
+    0 0 100px rgba(201, 162, 39, 0.072);
 }
 
 .outline-text {
@@ -413,6 +435,19 @@
   box-shadow: 0 0 8px rgba(57, 255, 136, 0.5);
 
   animation: scroll-traverse 2.4s ease-in-out infinite;
+}
+
+.variant-label {
+  color: rgba(201, 162, 39, 0.55);
+}
+
+.variant-separator {
+  color: rgba(180, 198, 187, 0.22);
+  margin: 0 4px;
+}
+
+.variant-number {
+  color: rgba(57, 255, 136, 0.45);
 }
 
 @keyframes scroll-traverse {

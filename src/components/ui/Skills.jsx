@@ -13,6 +13,7 @@ import {
   SiMysql,
   SiVercel,
   SiCplusplus,
+  SiTypescript
 } from 'react-icons/si';
 
 import { FaJava, FaGitAlt } from 'react-icons/fa';
@@ -37,6 +38,7 @@ const skillsData = [
   { name: 'HTML5', category: 'Frontend', icon: SiHtml5 },
   { name: 'CSS3', category: 'Frontend', icon: SiCss },
   { name: 'JavaScript (ES6+)', category: 'Frontend', icon: SiJavascript },
+  { name: 'TypeScript', category: 'Frontend', icon: SiTypescript },
   { name: 'React', category: 'Frontend', icon: SiReact },
   { name: 'Responsive Design', category: 'Frontend', icon: TbDeviceDesktopShare },
   { name: 'Recharts', category: 'Frontend', icon: TbChartHistogram },
