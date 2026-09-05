@@ -5,17 +5,13 @@
 
 .scroll-reactive {
   filter: blur(var(--scroll-blur));
-  transform: translateZ(0);
-
   will-change: filter;
-
   transition: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .scroll-reactive {
     filter: none;
-    transform: none;
     will-change: auto;
   }
 }

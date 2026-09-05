@@ -14,29 +14,32 @@ import Analytics from "./analytics-dashboard/pages/Analytics.jsx";
 
 import ScrollVelocity from "./ScrollVelocity.jsx";
 
-// import { track } from "./analytics/tracker.js";
+import { track } from "./analytics/tracker.js";
 
 import "./index.css";
 
 function Portfolio() {
 
-  // useEffect(() => {
-  //   track("page_view");
-  // }, []);
+  useEffect(() => {
+    track("page_view");
+  }, []);
 
   return (
     <div className="app-wrapper">
 
       <ScrollVelocity />
 
-      <main className="ui-layer scroll-reactive">
+      <main className="ui-layer">
         <Navbar />
-        <Hero />
-        <About />
-        <Skills />
-        <Projects />
-        <HowIBuild />
-        <Connect />
+
+        <div className="scroll-reactive">
+          <Hero />
+          <About />
+          <Skills />
+          <Projects />
+          <HowIBuild />
+          <Connect />
+        </div>
       </main>
 
     </div>

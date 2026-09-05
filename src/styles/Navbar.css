@@ -1,12 +1,12 @@
 .navbar {
-  position: fixed;
+  position: fixed !important;
 
   top: 0;
   left: 0;
 
   width: 100%;
 
-  z-index: 1000;
+  z-index: 100000;
 
   padding: 22px 5vw;
 
@@ -98,9 +98,11 @@
   border: 1px solid rgba(57, 255, 136, 0.18);
   border-radius: 50%;
 
-  color: var(--green);
+  color: rgba(201, 162, 39, 0.72);
 
-  background: rgba(57, 255, 136, 0.035);
+  border-color: rgba(201, 162, 39, 0.16);
+
+  background: rgba(201, 162, 39, 0.025);
 
   box-shadow:
     0 0 18px rgba(57, 255, 136, 0.05);
@@ -125,10 +127,10 @@
 .nav-logo:hover .logo-mark {
   transform: rotate(25deg);
 
-  border-color: rgba(57, 255, 136, 0.45);
+  border-color: rgba(201, 162, 39, 0.4);
 
   box-shadow:
-    0 0 24px rgba(57, 255, 136, 0.12);
+    0 0 24px rgba(201, 162, 39, 0.1);
 }
 
 .nav-links {
@@ -204,7 +206,7 @@
 }
 
 .nav-link-btn:hover .nav-index {
-  color: rgba(57, 255, 136, 0.8);
+  color: rgba(201, 162, 39, 0.8);
 }
 
 .nav-link-btn:hover::after {
@@ -243,14 +245,14 @@
 }
 
 .btn-contact:hover {
-  color: var(--green);
+  color: #c9a227;
 
-  border-color: rgba(57, 255, 136, 0.3);
+  border-color: rgba(201, 162, 39, 0.32);
 
-  background: rgba(57, 255, 136, 0.055);
+  background: rgba(201, 162, 39, 0.045);
 
   box-shadow:
-    0 0 24px rgba(57, 255, 136, 0.05);
+    0 0 24px rgba(201, 162, 39, 0.055);
 }
 
 .btn-contact svg {
@@ -259,6 +261,7 @@
 
 .btn-contact:hover svg {
   transform: translate(2px, -2px);
+  color: #c9a227;
 }
 
 .mobile-menu-toggle {
