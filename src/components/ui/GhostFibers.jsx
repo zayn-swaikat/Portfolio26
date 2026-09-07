@@ -54,6 +54,17 @@ uniform float uRotationSpeed;
 uniform float uLightMode;
 uniform vec3 uLineColor;
 uniform vec3 uGlowColor;
+uniform vec3 uAccentColor;
+uniform float uAccentRatio;
+uniform float uCurlAmount;
+uniform float uCurlFrequency;
+uniform float uCurlSpeed;
+uniform float uShimmerSpeed;
+uniform float uShimmerAmount;
+uniform float uSparkleAmount;
+uniform float uSparkleSize;
+uniform float uSparkleSpeed;
+uniform float uSparkleScale;
 
 out vec4 fragColor;
 
@@ -83,6 +94,27 @@ float layeredGrain(vec2 fragmentPixel) {
   return grain;
 }
 
+float strandHash(float n) {
+  return fract(sin(n * 127.1) * 43758.5453123);
+}
+
+vec2 curl(vec2 pos, float t) {
+  float a = sin(pos.y * uCurlFrequency + t) + sin(pos.x * uCurlFrequency * 0.7 - t * 1.3);
+  float b = cos(pos.x * uCurlFrequency - t * 0.8) + cos(pos.y * uCurlFrequency * 0.6 + t * 1.1);
+  return pos + vec2(a, b) * uCurlAmount;
+}
+
+float sparkleDust(vec2 pos, float t, out float cellHash) {
+  vec2 cell = floor(pos);
+  cellHash = grainHash(cell);
+  vec2 local = fract(pos) - 0.5;
+  vec2 jitter = vec2(strandHash(cellHash * 13.1 + 4.0), strandHash(cellHash * 7.7 + 9.0)) - 0.5;
+  vec2 offset = local - jitter * 0.7;
+  float d = length(offset);
+  float twinkle = 0.5 + 0.5 * sin(t * uSparkleSpeed + cellHash * 6.2831853);
+  return smoothstep(uSparkleSize, 0.0, d) * twinkle * twinkle;
+}
+
 void main() {
   vec2 resolution = max(uResolution, vec2(1.0));
   vec2 uv = (2.0 * gl_FragCoord.xy - resolution) / resolution.y;
@@ -93,8 +125,10 @@ void main() {
   vec2 p = uv;
   p /= max(uScale, 0.05);
   p = rotate2d(radians(uRotation) + time * uRotationSpeed) * p;
+  p = curl(p, time * uCurlSpeed);
   vec3 color = vec3(0.0);
   float fiberField = 0.0;
+  float accentField = 0.0;
 
   for (int index = 0; index < MAX_LAYERS; index++) {
     float fi = float(index) + 1.0;
@@ -107,14 +141,31 @@ void main() {
     polarAngle += sin(radius * uTwistFrequency - time * uTwistSpeed + fi) * uTwist;
     p = vec2(cos(polarAngle), sin(polarAngle)) * radius;
 
-    float lines = abs(sin(p.x * (uLineFrequency + fi * uLineSpacing) + sin(p.y * 3.0 + time)));
+    float phase = p.x * (uLineFrequency + fi * uLineSpacing) + sin(p.y * 3.0 + time);
+    float strandId = floor(phase / 3.14159265 + fi * 13.7);
+    float strandRoll = strandHash(strandId);
+    float isAccent = step(1.0 - uAccentRatio, strandRoll);
+
+    float lines = abs(sin(phase));
     lines = pow(max(0.0, 1.0 - lines), uLineSharpness);
     fiberField += lines / fi;
-    color += uLineColor * lines / fi;
+    accentField += (lines / fi) * isAccent;
+
+    float shimmer = 1.0 + uShimmerAmount * sin(time * uShimmerSpeed + strandRoll * 6.2831853) * mix(0.6, 1.4, isAccent);
+
+    vec3 strandLineColor = mix(uLineColor, uAccentColor, isAccent) * shimmer;
+    color += strandLineColor * lines / fi;
 
     float glow = exp(-uGlowFalloff * abs(sin(p.x * 3.0 + time + fi)));
-    color += uGlowColor * glow * uGlowIntensity / (fi * 2.0);
+    vec3 strandGlowColor = mix(uGlowColor, uAccentColor, isAccent) * shimmer;
+    color += strandGlowColor * glow * uGlowIntensity / (fi * 2.0);
   }
+
+  float sparkleMaskBase = smoothstep(0.05, 0.45, fiberField);
+  float dustHash;
+  float dust = sparkleDust(p * uSparkleScale, uTime, dustHash) * sparkleMaskBase * uSparkleAmount;
+  vec3 dustColor = mix(uLineColor, uAccentColor, step(1.0 - uAccentRatio * 1.5, dustHash));
+  color += dustColor * dust * 2.2;
 
   float center = exp(-2.2 * dot(uv, uv));
   color += centerTone * center;
@@ -132,11 +183,15 @@ void main() {
     float edgeFade = mix(1.0 - uVignette, 1.0, vignette);
     float fibers = pow(smoothstep(0.12, 1.05, fiberField) * edgeFade, 1.5);
     float atmosphere = (center * 0.025 + cloud * 0.015) * edgeFade;
-    vec3 fiberInk = mix(backdrop, uLineColor, 0.52);
+    float accentMix = clamp(accentField / max(fiberField, 0.0001), 0.0, 1.0);
+    vec3 fiberInkBase = mix(backdrop, uLineColor, 0.52);
+    vec3 fiberInkAccent = mix(backdrop, uAccentColor, 0.52);
+    vec3 fiberInk = mix(fiberInkBase, fiberInkAccent, accentMix);
     vec3 airColor = mix(backdrop, uGlowColor, 0.16);
 
     outputColor = mix(backdrop, airColor, atmosphere);
     outputColor = mix(outputColor, fiberInk, fibers * 0.3);
+    outputColor = mix(outputColor, dustColor, dust * 0.5);
   } else {
     outputColor = backdrop + color;
   }
@@ -152,6 +207,17 @@ const contexts = new WeakMap();
 const GhostFibers = ({
   lineColor = '#0b6b3a',
   glowColor = '#39ff88',
+  accentColor = '#c9a227',
+  accentRatio = 0.2,
+  curlAmount = 0.18,
+  curlFrequency = 1.4,
+  curlSpeed = 0.35,
+  shimmerSpeed = 1.8,
+  shimmerAmount = 0.45,
+  sparkleAmount = 0.8,
+  sparkleSize = 0.35,
+  sparkleSpeed = 3.0,
+  sparkleScale = 18.0,
   speed = 0.2,
   scale = 2,
   rotation = 0,
@@ -229,7 +295,18 @@ const GhostFibers = ({
         uGrain: { value: 0.05 },
         uLightMode: { value: 0 },
         uLineColor: { value: new Float32Array(hexToRgb('#0b6b3a')) },
-        uGlowColor: { value: new Float32Array(hexToRgb('#39ff88')) }
+        uGlowColor: { value: new Float32Array(hexToRgb('#39ff88')) },
+        uAccentColor: { value: new Float32Array(hexToRgb('#c9a227')) },
+        uAccentRatio: { value: 0.2 },
+        uCurlAmount: { value: 0.18 },
+        uCurlFrequency: { value: 1.4 },
+        uCurlSpeed: { value: 0.35 },
+        uShimmerSpeed: { value: 1.8 },
+        uShimmerAmount: { value: 0.45 },
+        uSparkleAmount: { value: 0.8 },
+        uSparkleSize: { value: 0.35 },
+        uSparkleSpeed: { value: 3.0 },
+        uSparkleScale: { value: 18.0 }
       }
     });
     const mesh = new Mesh(gl, { geometry, program });
@@ -351,6 +428,17 @@ const GhostFibers = ({
     const uniforms = context.program.uniforms;
     setColor(uniforms.uLineColor, lineColor);
     setColor(uniforms.uGlowColor, glowColor);
+    setColor(uniforms.uAccentColor, accentColor);
+    uniforms.uAccentRatio.value = Math.min(Math.max(accentRatio, 0), 1);
+    uniforms.uCurlAmount.value = curlAmount;
+    uniforms.uCurlFrequency.value = curlFrequency;
+    uniforms.uCurlSpeed.value = curlSpeed;
+    uniforms.uShimmerSpeed.value = shimmerSpeed;
+    uniforms.uShimmerAmount.value = shimmerAmount;
+    uniforms.uSparkleAmount.value = sparkleAmount;
+    uniforms.uSparkleSize.value = sparkleSize;
+    uniforms.uSparkleSpeed.value = sparkleSpeed;
+    uniforms.uSparkleScale.value = sparkleScale;
     uniforms.uSpeed.value = speed;
     uniforms.uScale.value = scale;
     uniforms.uRotation.value = rotation;
@@ -379,6 +467,17 @@ const GhostFibers = ({
   }, [
     lineColor,
     glowColor,
+    accentColor,
+    accentRatio,
+    curlAmount,
+    curlFrequency,
+    curlSpeed,
+    shimmerSpeed,
+    shimmerAmount,
+    sparkleAmount,
+    sparkleSize,
+    sparkleSpeed,
+    sparkleScale,
     speed,
     scale,
     rotation,

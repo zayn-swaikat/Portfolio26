@@ -33,8 +33,6 @@ export default function Hero() {
         }}
       >
         <GhostFibers
-          lineColor="#0b6b3a"
-          glowColor="#39ff88"
           speed={0.2}
           scale={2}
           brightness={2}
